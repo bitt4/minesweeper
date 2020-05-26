@@ -31,7 +31,7 @@ int main(int argc, char *argv[]){
                                           WINDOW_W, WINDOW_W,
                                           SDL_WINDOW_SHOWN);
 
-    SDL_Surface *icon = SDL_LoadBMP("icon.bmp");
+    SDL_Surface *icon = SDL_LoadBMP("bitmaps/icon.bmp");
     SDL_SetWindowIcon(window, icon);
     SDL_FreeSurface(icon);
 
