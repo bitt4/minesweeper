@@ -30,7 +30,7 @@ void drawImage(SDL_Renderer *renderer, int x, int y, const char *filename, int i
 void renderField(SDL_Renderer *renderer){
     for(int i = 0; i < WINDOW_W; i += CELL_WIDTH){
         for(int j = 0; j < WINDOW_W; j += CELL_WIDTH){
-            drawImage(renderer, j ,i, "items.bmp", 0);
+            drawImage(renderer, j ,i, "bitmaps/items.bmp", 0);
         }
     }
 }

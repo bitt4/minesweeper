@@ -19,6 +19,5 @@ void handleClick(int x, int y, int button, SDL_Renderer *renderer){
         return;
     }
 
-
-    drawImage(renderer, x, y, "items.bmp", id);
+    drawImage(renderer, x, y, "bitmaps/items.bmp", id);
 }
