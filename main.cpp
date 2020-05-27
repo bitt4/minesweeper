@@ -28,7 +28,7 @@ int main(int argc, char *argv[]){
     SDL_Window *window = SDL_CreateWindow("Minesweeper",
                                           SDL_WINDOWPOS_CENTERED,
                                           SDL_WINDOWPOS_CENTERED,
-                                          WINDOW_W, WINDOW_W,
+                                          WINDOW_W, WINDOW_H,
                                           SDL_WINDOW_SHOWN);
 
     SDL_Surface *icon = SDL_LoadBMP("bitmaps/icon.bmp");
