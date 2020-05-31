@@ -3,10 +3,16 @@
 #include "include/render.hpp"
 #include "include/consts.hpp"
 
-void drawImage(SDL_Renderer *renderer, int x, int y, const char *filename, int id){
-    SDL_Surface *surface = SDL_LoadBMP(filename);
-    SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
+
+SDL_Surface *surface = SDL_LoadBMP("bitmaps/items.bmp");
+SDL_Texture *texture;
+
+void initRender(SDL_Renderer *renderer){
+    texture = SDL_CreateTextureFromSurface(renderer, surface);
     SDL_FreeSurface(surface);
+}
+
+void drawImage(SDL_Renderer *renderer, int x, int y, int id){
 
     SDL_Rect sourceRect;
     SDL_Rect destRect;
@@ -24,13 +30,21 @@ void drawImage(SDL_Renderer *renderer, int x, int y, const char *filename, int i
     destRect.h = CELL_WIDTH;
 
     SDL_RenderCopy(renderer, texture, &sourceRect, &destRect);
-    SDL_DestroyTexture(texture);
 }
 
 void renderField(SDL_Renderer *renderer){
     for(int i = 0; i < WINDOW_H; i += CELL_WIDTH){
         for(int j = 0; j < WINDOW_W; j += CELL_WIDTH){
-            drawImage(renderer, j ,i, "bitmaps/items.bmp", 0);
+            drawImage(renderer, j, i, 0);
         }
     }
 }
+/* testing
+void revealField(SDL_Renderer *renderer){
+    for(int i = 0; i < WINDOW_H; i += CELL_WIDTH){
+        for(int j = 0; j < WINDOW_W; j += CELL_WIDTH){
+            drawImage(renderer, j, i, TriggeredMine);
+        }
+    }
+}
+*/
