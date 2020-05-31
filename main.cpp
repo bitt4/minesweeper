@@ -56,7 +56,8 @@ int main(int argc, char *argv[]){
 
     //SDL_SetRenderDrawColor(renderer, 24, 24, 24, 255);
     //SDL_RenderClear(renderer);
-
+    
+    initRender(renderer);
     renderField(renderer);
 
     SDL_Event e;
@@ -75,6 +76,11 @@ int main(int argc, char *argv[]){
                 handleClick(e.button.x, e.button.y, (int)e.button.button, renderer);
                 //std::cout << (int)e.button.button;
                 break;
+            /* testing
+            case SDL_KEYDOWN:
+                revealField(renderer);
+                break;
+            */
             default: {}
             }
         }
