@@ -4,3 +4,14 @@
 
 #define WINDOW_W CELLS_X*CELL_WIDTH
 #define WINDOW_H CELLS_Y*CELL_WIDTH
+
+enum FieldType {
+    Hidden,
+    Flag,
+    Question,
+    TriggeredMine,
+    FalseMine,
+    Mine,
+    Question2,
+    Clear = 15
+};
