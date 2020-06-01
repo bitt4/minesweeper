@@ -59,6 +59,9 @@ int main(int argc, char *argv[]){
     
     initRender(renderer);
     renderField(renderer);
+    
+    board_t board;
+    board.init();
 
     SDL_Event e;
 
@@ -73,14 +76,14 @@ int main(int argc, char *argv[]){
                 break;
             case SDL_MOUSEBUTTONDOWN:
                 //std::cout << "Mouse\n";
-                handleClick(e.button.x, e.button.y, (int)e.button.button, renderer);
+                handleClick(e.button.x/CELL_WIDTH, e.button.y/CELL_WIDTH, (int)e.button.button, renderer);
                 //std::cout << (int)e.button.button;
                 break;
-            /* testing
+#ifdef DEBUG
             case SDL_KEYDOWN:
-                revealField(renderer);
+                revealField(renderer, &board);
                 break;
-            */
+#endif
             default: {}
             }
         }
