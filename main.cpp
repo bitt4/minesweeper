@@ -8,7 +8,7 @@
 
 //#define WINDOW_H 401
 #include "include/consts.hpp"
-#include "include/handle_click.hpp"
+#include "include/game.hpp"
 #include "include/render.hpp"
 
 int main(int argc, char *argv[]){
