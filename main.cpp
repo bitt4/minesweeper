@@ -76,7 +76,7 @@ int main(int argc, char *argv[]){
                 break;
             case SDL_MOUSEBUTTONDOWN:
                 //std::cout << "Mouse\n";
-                handleClick(e.button.x/CELL_WIDTH, e.button.y/CELL_WIDTH, (int)e.button.button, renderer);
+                handleClick(renderer, &board, e.button.x/CELL_WIDTH, e.button.y/CELL_WIDTH, (int)e.button.button);
                 //std::cout << (int)e.button.button;
                 break;
 #ifdef DEBUG
