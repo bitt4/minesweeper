@@ -47,3 +47,7 @@ void revealField(SDL_Renderer *renderer, const board_t *board){
         }
     }
 }
+
+void clickOnTile(SDL_Renderer *renderer, const board_t *board, int x, int y){
+    drawImage(renderer, x, y, board->field[y * CELLS_X + x]);
+}
