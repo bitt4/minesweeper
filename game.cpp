@@ -35,7 +35,7 @@ void handleClick(SDL_Renderer *renderer, const board_t *board, int x, int y, int
 
     switch(button){
     case 1:
-        clickOnTile(renderer, board, x, y);
+        clickOnTile(renderer, board, flags, x, y);
         break;
     case 3:
         drawImage(renderer, x, y, Flag); //still for testing
