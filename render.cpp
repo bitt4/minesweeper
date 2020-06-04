@@ -67,3 +67,13 @@ void clickOnTile(SDL_Renderer *renderer, const board_t *board, int x, int y){
         drawImage(renderer, x, y, board->field[y * CELLS_X + x]);
     }
 }
+
+void renderFlags(SDL_Renderer *renderer, const bool *flags){
+    for(int i = 0; i < CELLS_Y; i++){
+        for(int j = 0; j < CELLS_X; j++){
+            if(flags[i * CELLS_X + j]){
+                drawImage(renderer, j, i, Flag);
+            }
+        }
+    }
+}
