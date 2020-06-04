@@ -24,8 +24,15 @@ void board_t::init(){
     }
 }
 
-void flagTile(int x, int y){
-    flags[y * CELLS_X + x] = true;
+bool flagTile(int x, int y){
+    if(flags[y * CELLS_X + x] == true){
+        flags[y * CELLS_X + x] = false;
+        return false;
+    }
+    if(flags[y * CELLS_X + x] == false){
+        flags[y * CELLS_X + x] = true;
+        return true;
+    }
 }
 
 void handleClick(SDL_Renderer *renderer, const board_t *board, int x, int y, int button){
