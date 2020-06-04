@@ -6,6 +6,8 @@
 #include "include/game.hpp"
 #include "include/render.hpp"
 
+bool flags[CELLS_X*CELLS_Y];
+
 void board_t::init(){
     
     srand(time(NULL));
@@ -22,6 +24,10 @@ void board_t::init(){
     }
 }
 
+void flagTile(int x, int y){
+    flags[y * CELLS_X + x] = true;
+}
+
 void handleClick(SDL_Renderer *renderer, const board_t *board, int x, int y, int button){
     //std::cout << x/CELL_WIDTH << " " << y/CELL_WIDTH << "" << "\n";
 
@@ -33,6 +39,7 @@ void handleClick(SDL_Renderer *renderer, const board_t *board, int x, int y, int
         break;
     case 3:
         drawImage(renderer, x, y, Flag); //still for testing
+        flagTile(x, y);
         break;
     default:
         return;
