@@ -23,6 +23,13 @@ void board_t::init(){
             field[i] = Clear;
         }
     }
+    
+    for(int y = 0; y < CELLS_Y; y++){
+        for(int x = 0; x < CELLS_X; x++){
+            if(field[ y * CELLS_X + x ] != Mine)
+                field[ y * CELLS_X + x ] = 15 - getNearbyMines(this, x, y);
+        }
+    }
 }
 
 bool flagTile(int x, int y){
