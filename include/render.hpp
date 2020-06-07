@@ -3,3 +3,4 @@ void initRender(SDL_Renderer *renderer);
 void renderField(SDL_Renderer *renderer);
 void revealField(SDL_Renderer *renderer, const board_t *board);
 void clickOnTile(SDL_Renderer *renderer, const board_t *board, const bool *flags, int x, int y);
+void renderFlag(SDL_Renderer *renderer, const bool *flags, int x, int y);
