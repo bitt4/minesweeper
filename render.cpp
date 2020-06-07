@@ -7,6 +7,8 @@
 SDL_Surface *surface = SDL_LoadBMP("bitmaps/items.bmp");
 SDL_Texture *texture;
 
+bool revealed[CELLS_X * CELLS_Y];
+
 void initRender(SDL_Renderer *renderer){
     texture = SDL_CreateTextureFromSurface(renderer, surface);
     SDL_FreeSurface(surface);
@@ -49,18 +51,21 @@ void revealField(SDL_Renderer *renderer, const board_t *board){
 }
 
 void revealMines(SDL_Renderer *renderer, const board_t *board, const bool *flags){
-    for(int i = 0; i < CELLS_Y; i++){
-        for(int j = 0; j < CELLS_X; j++){
+    for(int y = 0; y < CELLS_Y; y++){
+        for(int x = 0; x < CELLS_X; x++){
             
-            if(board->field[i * CELLS_X + j] == Mine && !flags[i * CELLS_X + j]){
-                drawImage(renderer, j, i, Mine);
+            if(board->field[y * CELLS_X + x] == Mine && !flags[y * CELLS_X + x]){
+                drawImage(renderer, x, y, Mine);
+                revealed[y * CELLS_X + x] = true;
             }
             
-            if(board->field[i * CELLS_X + j] != Mine && flags[i * CELLS_X + j]){
-                drawImage(renderer, j, i, FalseMine);
+            if(board->field[y * CELLS_X + x] != Mine && flags[y * CELLS_X + x]){
+                drawImage(renderer, x, y, FalseMine);
+                revealed[y * CELLS_X + x] = true;
             }
         }
     }
+    
 }
 
 void clickOnTile(SDL_Renderer *renderer, const board_t *board, const bool *flags, int x, int y){
@@ -71,6 +76,7 @@ void clickOnTile(SDL_Renderer *renderer, const board_t *board, const bool *flags
     else {
         drawImage(renderer, x, y, board->field[y * CELLS_X + x]);
     }
+    revealed[y * CELLS_X + x] = true;
 }
 
 void renderFlags(SDL_Renderer *renderer, const bool *flags){
@@ -79,6 +85,17 @@ void renderFlags(SDL_Renderer *renderer, const bool *flags){
             if(flags[i * CELLS_X + j]){
                 drawImage(renderer, j, i, Flag);
             }
+        }
+    }
+}
+
+void renderFlag(SDL_Renderer *renderer, const bool *flags, int x, int y){
+    if(!revealed[y * CELLS_X + x]){
+        if(flags[y * CELLS_X + x]){
+            drawImage(renderer, x, y, Flag);
+        }
+        else{
+            drawImage(renderer, x, y, Hidden);
         }
     }
 }
