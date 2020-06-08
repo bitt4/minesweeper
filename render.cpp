@@ -99,3 +99,33 @@ void renderFlag(SDL_Renderer *renderer, const bool *flags, int x, int y){
         }
     }
 }
+
+void revealNearby(SDL_Renderer *renderer, const board_t *board, int x, int y){
+    // 3 cells above target position
+    if(y - 1 >= 0){
+        for(int i = -1; i < 2; i++){
+            if(x+i >= 0 && x+i <= CELLS_X-1){
+                drawImage(renderer, x+i, y-1, board->field[ (y-1) * CELLS_X + x+i ]);
+            }
+        }
+    }
+
+    // cell left to target position
+    if(x-1 >= 0){
+        drawImage(renderer, x-1, y, board->field[ y * CELLS_X + x-1 ]);
+    }
+
+    // cell right to target position
+    if(x+1 <= CELLS_X-1){
+        drawImage(renderer, x+1, y, board->field[ y * CELLS_X + x+1 ]);
+    }
+
+    // 3 cells under target position
+    if(y + 1 <= CELLS_Y-1){
+        for(int i = -1; i < 2; i++){
+            if(x+i >= 0 && x+i <= CELLS_X-1){
+                drawImage(renderer, x+i, y+1, board->field[ (y+1) * CELLS_X + x+i ]);
+            }
+        }
+    }
+}
