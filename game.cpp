@@ -95,6 +95,10 @@ void handleClick(SDL_Renderer *renderer, const board_t *board, int x, int y, int
         clickOnTile(renderer, board, flags, x, y);
         std::cout << getNearbyMines(board, x, y) << "\n";
         break;
+    case 2:
+        //testing
+        revealNearby(renderer, board, x, y);
+        break;
     case 3:
         //drawImage(renderer, x, y, Flag); //still for testing
         flagTile(x, y);
