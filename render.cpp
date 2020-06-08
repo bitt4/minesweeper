@@ -129,3 +129,5 @@ void revealNearby(SDL_Renderer *renderer, const board_t *board, int x, int y){
         }
     }
 }
+
+//TODO: Reveal a group of empty cells
