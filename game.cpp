@@ -33,14 +33,7 @@ void board_t::init(){
 }
 
 bool flagTile(int x, int y){
-    if(flags[y * CELLS_X + x] == true){
-        flags[y * CELLS_X + x] = false;
-        return false;
-    }
-    if(flags[y * CELLS_X + x] == false){
-        flags[y * CELLS_X + x] = true;
-        return true;
-    }
+    return (flags[y * CELLS_X + x] = !flags[y * CELLS_X + x]);
 }
 
 int getNearbyMines(const board_t *board, int x, int y){
