@@ -16,7 +16,7 @@ void board_t::init(){
 
     for(int i = 0; i < CELLS_X*CELLS_Y; i++){
         randomNumber = rand();
-        if(randomNumber%5 == 0){
+        if(randomNumber%7 == 0){
             field[i] = Mine;
         }
         else{
@@ -90,7 +90,8 @@ void handleClick(SDL_Renderer *renderer, const board_t *board, int x, int y, int
         break;
     case 2:
         //testing
-        revealNearby(renderer, board, x, y);
+        revealGroupEmpty(renderer, board, x, y);
+        //revealEmpty(renderer, board);
         break;
     case 3:
         //drawImage(renderer, x, y, Flag); //still for testing
