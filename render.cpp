@@ -1,4 +1,5 @@
 #include <SDL2/SDL.h>
+#include <iostream>
 
 #include "include/consts.hpp"
 #include "include/game.hpp"
@@ -100,12 +101,17 @@ void renderFlag(SDL_Renderer *renderer, const bool *flags, int x, int y){
     }
 }
 
-void revealNearby(SDL_Renderer *renderer, const board_t *board, int x, int y){
+int revealNearby(SDL_Renderer *renderer, const board_t *board, int x, int y){
     // 3 cells above target position
+    
+    int revealedCells = 0;
+    
     if(y - 1 >= 0){
         for(int i = -1; i < 2; i++){
             if(x+i >= 0 && x+i <= CELLS_X-1){
                 drawImage(renderer, x+i, y-1, board->field[ (y-1) * CELLS_X + x+i ]);
+                revealed[ (y-1) * CELLS_X + (x+i) ] = true;
+                revealedCells++;
             }
         }
     }
@@ -113,11 +119,15 @@ void revealNearby(SDL_Renderer *renderer, const board_t *board, int x, int y){
     // cell left to target position
     if(x-1 >= 0){
         drawImage(renderer, x-1, y, board->field[ y * CELLS_X + x-1 ]);
+        revealed[ y * CELLS_X + x-1 ] = true;
+        revealedCells++;
     }
 
     // cell right to target position
     if(x+1 <= CELLS_X-1){
         drawImage(renderer, x+1, y, board->field[ y * CELLS_X + x+1 ]);
+        revealed[ y * CELLS_X + x+1 ] = true;
+        revealedCells++;
     }
 
     // 3 cells under target position
@@ -125,9 +135,88 @@ void revealNearby(SDL_Renderer *renderer, const board_t *board, int x, int y){
         for(int i = -1; i < 2; i++){
             if(x+i >= 0 && x+i <= CELLS_X-1){
                 drawImage(renderer, x+i, y+1, board->field[ (y+1) * CELLS_X + x+i ]);
+                revealed[ (y+1) * CELLS_X + x+i ] = true;
+                revealedCells++;
+            }
+        }
+    }
+    
+    return revealedCells;
+}
+
+int countRevealedNearby(int x, int y){
+    // 3 cells above target position
+    
+    int revealedCells = 0;
+    
+    if(y - 1 >= 0){
+        for(int i = -1; i < 2; i++){
+            if(x+i >= 0 && x+i <= CELLS_X-1){
+                revealedCells += revealed[ (y-1) * CELLS_X + (x+i) ];
+            }
+        }
+    }
+
+    // cell left to target position
+    if(x-1 >= 0){
+        revealedCells += revealed[ y * CELLS_X + x-1 ];
+    }
+
+    // cell right to target position
+    if(x+1 <= CELLS_X-1){
+        revealedCells += revealed[ y * CELLS_X + x+1 ];
+    }
+
+    // 3 cells under target position
+    if(y + 1 <= CELLS_Y-1){
+        for(int i = -1; i < 2; i++){
+            if(x+i >= 0 && x+i <= CELLS_X-1){
+                revealedCells += revealed[ (y+1) * CELLS_X + x+i ];
+            }
+        }
+    }
+    
+    return revealedCells;
+}
+
+//TODO: Reveal a group of empty cells
+
+void revealGroupEmpty(SDL_Renderer *renderer, const board_t *board, int x, int y){
+    
+    int revealedIter = 0, countClearRevealed;
+    
+    if(board->field[ y * CELLS_X + x ] == Clear && revealed[ y * CELLS_X + x ]){
+        revealNearby(renderer, board, x, y);
+    }
+    
+    //do  
+    
+    while(true) {
+
+        countClearRevealed = 0;
+
+        for(int i = 0; i < CELLS_Y; i++){
+            for(int j = 0; j < CELLS_X; j++){
+                if(board->field[ i * CELLS_X + j ] == Clear && revealed[ i * CELLS_X + j ]) {
+                    countClearRevealed++;
+                    //std::cout << j << " " << i << "\n";
+                    revealNearby(renderer, board, j, i);
+                }
+            }
+        }
+        if(countClearRevealed == revealedIter){
+            break;
+        }
+        revealedIter = countClearRevealed;
+    }
+}
+
+void revealEmpty(SDL_Renderer *renderer, const board_t *board){
+    for(int i = 0; i < CELLS_Y; i++){
+        for(int j = 0; j < CELLS_X; j++){
+            if(board->field[i * CELLS_X + j] == Clear){
+                drawImage(renderer, j, i, Clear);
             }
         }
     }
 }
-
-//TODO: Reveal a group of empty cells
