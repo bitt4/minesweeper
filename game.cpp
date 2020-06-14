@@ -86,11 +86,11 @@ void handleClick(SDL_Renderer *renderer, const board_t *board, int x, int y, int
     switch(button){
     case 1:
         clickOnTile(renderer, board, flags, x, y);
-        std::cout << getNearbyMines(board, x, y) << "\n";
+        //std::cout << getNearbyMines(board, x, y) << "\n";
         break;
     case 2:
         //testing
-        revealGroupEmpty(renderer, board, x, y);
+        //revealGroupEmpty(renderer, board, x, y);
         //revealEmpty(renderer, board);
         break;
     case 3:
