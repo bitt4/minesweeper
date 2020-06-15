@@ -69,20 +69,34 @@ void revealMines(SDL_Renderer *renderer, const board_t *board, const bool *flags
     
 }
 
-void clickOnTile(SDL_Renderer *renderer, const board_t *board, const bool *flags, int x, int y){
-    
-    revealed[y * CELLS_X + x] = true;
-    
-    if(board->field[y * CELLS_X + x] == Mine){
-        revealMines(renderer, board, flags);
-        drawImage(renderer, x, y, TriggeredMine);
-    }
-    else if(board->field[y * CELLS_X + x] == Clear){
-        drawImage(renderer, x, y, Clear);
-        revealGroupEmpty(renderer, board, x, y);
+void clickOnTile(SDL_Renderer *renderer, board_t *board, bool *flags, int x, int y){
+    if(board->state == Playing){
+        revealed[y * CELLS_X + x] = true;
+        
+        if(board->field[y * CELLS_X + x] == Mine){
+            revealMines(renderer, board, flags);
+            drawImage(renderer, x, y, TriggeredMine);
+            
+            for(int j = 0; j < CELLS_Y; j++){
+                for(int i = 0; i < CELLS_X; i++){
+                    revealed[j * CELLS_X + i] = false;
+                    flags[j * CELLS_X + i] = false;
+                }
+            }
+            
+            board->state = GameOver;
+        }
+        else if(board->field[y * CELLS_X + x] == Clear){
+            drawImage(renderer, x, y, Clear);
+            revealGroupEmpty(renderer, board, x, y);
+        }
+        else {
+            drawImage(renderer, x, y, board->field[y * CELLS_X + x]);
+        }
     }
     else {
-        drawImage(renderer, x, y, board->field[y * CELLS_X + x]);
+        board->init();
+        renderField(renderer);
     }
 }
 
