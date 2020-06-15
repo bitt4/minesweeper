@@ -10,6 +10,8 @@
 bool flags[CELLS_X*CELLS_Y];
 
 void board_t::init(){
+    
+    this->state = Playing;
 
     srand(time(NULL));
     int randomNumber;
@@ -78,7 +80,7 @@ int getNearbyMines(const board_t *board, int x, int y){
     return countMines;
 }
 
-void handleClick(SDL_Renderer *renderer, const board_t *board, int x, int y, int button){
+void handleClick(SDL_Renderer *renderer, board_t *board, int x, int y, int button){
     //std::cout << x/CELL_WIDTH << " " << y/CELL_WIDTH << "" << "\n";
 
     int id;
