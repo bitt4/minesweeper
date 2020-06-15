@@ -15,3 +15,8 @@ enum FieldType {
     Question2,
     Clear = 15
 };
+
+enum GameState {
+    Playing,
+    GameOver
+};
