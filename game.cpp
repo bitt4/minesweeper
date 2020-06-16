@@ -38,6 +38,19 @@ bool flagTile(int x, int y){
     return (flags[y * CELLS_X + x] = !flags[y * CELLS_X + x]);
 }
 
+bool checkWin(const board_t *board, const bool *flags){
+    bool win = true;
+    for(int y = 0; y < CELLS_Y; y++){
+        for(int x = 0; x < CELLS_X; x++){
+            if(board->field[y * CELLS_X + x] == Mine && !flags[y * CELLS_X + x]){
+                win = false;
+            }
+        }
+    }
+    
+    return win;
+}
+
 int getNearbyMines(const board_t *board, int x, int y){
     int countMines = 0;
 
