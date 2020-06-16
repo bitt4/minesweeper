@@ -112,6 +112,9 @@ void handleClick(SDL_Renderer *renderer, board_t *board, int x, int y, int butto
         //drawImage(renderer, x, y, Flag); //still for testing
         flagTile(x, y);
         renderFlag(renderer, flags, x, y);
+        if(checkWin(board, flags)){
+            //reveal board
+        }
         break;
     default:
         return;
