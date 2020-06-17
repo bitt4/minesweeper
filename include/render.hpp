@@ -7,3 +7,5 @@ void renderFlag(SDL_Renderer *renderer, const bool *flags, int x, int y);
 int revealNearby(SDL_Renderer *renderer, const board_t *board, int x, int y);
 void revealGroupEmpty(SDL_Renderer *renderer, const board_t *board, int x, int y);
 void revealEmpty(SDL_Renderer *renderer, const board_t *board);
+void revealExceptMines(SDL_Renderer *renderer, const board_t *board);
+void resetFlagsAndRevealed(SDL_Renderer *renderer, bool *flags);
