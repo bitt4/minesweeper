@@ -77,12 +77,7 @@ void clickOnTile(SDL_Renderer *renderer, board_t *board, bool *flags, int x, int
             revealMines(renderer, board, flags);
             drawImage(renderer, x, y, TriggeredMine);
             
-            for(int j = 0; j < CELLS_Y; j++){
-                for(int i = 0; i < CELLS_X; i++){
-                    revealed[j * CELLS_X + i] = false;
-                    flags[j * CELLS_X + i] = false;
-                }
-            }
+            resetFlagsAndRevealed(renderer, flags);
             
             board->state = GameOver;
         }
@@ -97,6 +92,15 @@ void clickOnTile(SDL_Renderer *renderer, board_t *board, bool *flags, int x, int
     else {
         board->init();
         renderField(renderer);
+    }
+}
+
+void resetFlagsAndRevealed(SDL_Renderer *renderer, bool *flags){
+    for(int j = 0; j < CELLS_Y; j++){
+        for(int i = 0; i < CELLS_X; i++){
+            revealed[j * CELLS_X + i] = false;
+            flags[j * CELLS_X + i] = false;
+        }
     }
 }
 
@@ -236,6 +240,16 @@ void revealEmpty(SDL_Renderer *renderer, const board_t *board){
         for(int j = 0; j < CELLS_X; j++){
             if(board->field[i * CELLS_X + j] == Clear){
                 drawImage(renderer, j, i, Clear);
+            }
+        }
+    }
+}
+
+void revealExceptMines(SDL_Renderer *renderer, const board_t *board){
+    for(int y = 0; y < CELLS_Y; y++){
+        for(int x = 0; x < CELLS_X; x++){
+            if(board->field[y * CELLS_X + x] != Mine){
+                drawImage(renderer, x, y, board->field[y * CELLS_X + x]);
             }
         }
     }
