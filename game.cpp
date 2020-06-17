@@ -112,8 +112,14 @@ void handleClick(SDL_Renderer *renderer, board_t *board, int x, int y, int butto
         //drawImage(renderer, x, y, Flag); //still for testing
         flagTile(x, y);
         renderFlag(renderer, flags, x, y);
+        if(board->state == GameOver){
+            resetFlagsAndRevealed(renderer, flags);
+            board->init();
+            renderField(renderer);
+        }
         if(checkWin(board, flags)){
-            //reveal board
+            revealExceptMines(renderer, board);
+            board->state = GameOver;
         }
         break;
     default:
