@@ -1,6 +1,5 @@
 #include <SDL2/SDL.h>
 
-#include <Windows.h>
 #include <iostream>
 #include <cstdio>
 
@@ -12,11 +11,6 @@
 #include "include/render.hpp"
 
 int main(int argc, char *argv[]){
-
-#ifdef DEBUG
-    AllocConsole();
-    std::freopen("CON", "w", stdout);
-#endif
 
     if(SDL_Init(SDL_INIT_EVERYTHING) != 0){
         std::cout << "Init failed\n";
