@@ -119,6 +119,7 @@ void handleClick(SDL_Renderer *renderer, board_t *board, int x, int y, int butto
         }
         if(checkWin(board, flags)){
             revealExceptMines(renderer, board);
+            resetFlagsAndRevealed(renderer, flags);
             board->state = GameOver;
         }
         break;
