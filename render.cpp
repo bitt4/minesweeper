@@ -5,7 +5,7 @@
 #include "include/game.hpp"
 #include "include/render.hpp"
 
-SDL_Surface *surface = SDL_LoadBMP("bitmaps/items.bmp");
+SDL_Surface *surface = SDL_LoadBMP((SDL_GetBasePath() + std::string("bitmaps/items.bmp")).c_str());
 SDL_Texture *texture;
 
 bool revealed[CELLS_X * CELLS_Y];
