@@ -1,7 +1,8 @@
 #include <SDL2/SDL.h>
 
 #include <iostream>
-#include <cstdio>
+//#include <cstdio>
+#include <cstdlib>
 
 #define DEBUG
 
