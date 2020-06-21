@@ -103,11 +103,6 @@ void handleClick(SDL_Renderer *renderer, board_t *board, int x, int y, int butto
         clickOnTile(renderer, board, flags, x, y);
         //std::cout << getNearbyMines(board, x, y) << "\n";
         break;
-    case 2:
-        //testing
-        //revealGroupEmpty(renderer, board, x, y);
-        //revealEmpty(renderer, board);
-        break;
     case 3:
         //drawImage(renderer, x, y, Flag); //still for testing
         flagTile(x, y);
