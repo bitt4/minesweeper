@@ -4,7 +4,7 @@
 //#include <cstdio>
 #include <cstdlib>
 
-#define DEBUG
+//#define DEBUG
 
 //#define WINDOW_H 401
 #include "include/consts.hpp"
