@@ -203,8 +203,6 @@ int countRevealedNearby(int x, int y){
     return revealedCells;
 }
 
-//TODO: Reveal a group of empty cells
-
 void revealGroupEmpty(SDL_Renderer *renderer, const board_t *board, int x, int y){
     
     int revealedIter = 0, countClearRevealed;
