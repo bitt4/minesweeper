@@ -20,8 +20,6 @@ void drawImage(SDL_Renderer *renderer, int x, int y, int id){
     SDL_Rect sourceRect;
     SDL_Rect destRect;
 
-    //SDL_QueryTexture(texture, NULL, NULL, &sourceRect.w, &sourceRect.h);
-
     sourceRect.x = 0;
     sourceRect.y = 16 * id;
     sourceRect.w = 16;
@@ -43,6 +41,7 @@ void renderField(SDL_Renderer *renderer){
     }
 }
 
+//just for testing
 void revealField(SDL_Renderer *renderer, const board_t *board){
     for(int i = 0; i < CELLS_Y; i++){
         for(int j = 0; j < CELLS_X; j++){
@@ -126,8 +125,8 @@ void renderFlag(SDL_Renderer *renderer, const bool *flags, int x, int y){
 }
 
 int revealNearby(SDL_Renderer *renderer, const board_t *board, int x, int y){
-    // 3 cells above target position
     
+    // 3 cells above target position
     int revealedCells = 0;
     
     if(y - 1 >= 0){
@@ -211,8 +210,6 @@ void revealGroupEmpty(SDL_Renderer *renderer, const board_t *board, int x, int y
         revealNearby(renderer, board, x, y);
     }
     
-    //do  
-    
     while(true) {
 
         countClearRevealed = 0;
@@ -221,7 +218,6 @@ void revealGroupEmpty(SDL_Renderer *renderer, const board_t *board, int x, int y
             for(int j = 0; j < CELLS_X; j++){
                 if(board->field[ i * CELLS_X + j ] == Clear && revealed[ i * CELLS_X + j ]) {
                     countClearRevealed++;
-                    //std::cout << j << " " << i << "\n";
                     revealNearby(renderer, board, j, i);
                 }
             }
