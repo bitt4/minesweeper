@@ -94,17 +94,14 @@ int getNearbyMines(const board_t *board, int x, int y){
 }
 
 void handleClick(SDL_Renderer *renderer, board_t *board, int x, int y, int button){
-    //std::cout << x/CELL_WIDTH << " " << y/CELL_WIDTH << "" << "\n";
 
     int id;
 
     switch(button){
     case 1:
         clickOnTile(renderer, board, flags, x, y);
-        //std::cout << getNearbyMines(board, x, y) << "\n";
         break;
     case 3:
-        //drawImage(renderer, x, y, Flag); //still for testing
         flagTile(x, y);
         renderFlag(renderer, flags, x, y);
         if(board->state == GameOver){
@@ -121,6 +118,4 @@ void handleClick(SDL_Renderer *renderer, board_t *board, int x, int y, int butto
     default:
         return;
     }
-
-    //drawImage(renderer, x, y, id);
 }
