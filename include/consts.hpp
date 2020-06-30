@@ -1,3 +1,6 @@
+#ifndef _CONSTS_H
+#define _CONSTS_H
+
 #define CELL_WIDTH 16
 #define CELLS_X 32	//number of cells in one row
 #define CELLS_Y 24	//number of cells in one column
@@ -20,3 +23,5 @@ enum GameState {
     Playing,
     GameOver
 };
+
+#endif // _CONSTS_H

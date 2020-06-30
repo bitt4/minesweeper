@@ -1,3 +1,6 @@
+#ifndef _RENDER_H
+#define _RENDER_H
+
 void drawImage(SDL_Renderer *renderer, int x, int y, int id);
 void initRender(SDL_Renderer *renderer);
 void renderField(SDL_Renderer *renderer);
@@ -9,3 +12,5 @@ void revealGroupEmpty(SDL_Renderer *renderer, const board_t *board, int x, int y
 void revealEmpty(SDL_Renderer *renderer, const board_t *board);
 void revealExceptMines(SDL_Renderer *renderer, const board_t *board);
 void resetFlagsAndRevealed(SDL_Renderer *renderer, bool *flags);
+
+#endif // _RENDER_H
