@@ -95,8 +95,6 @@ int getNearbyMines(const board_t *board, int x, int y){
 
 void handleClick(SDL_Renderer *renderer, board_t *board, int x, int y, int button){
 
-    int id;
-
     switch(button){
     case 1:
         clickOnTile(renderer, board, flags, x, y);
