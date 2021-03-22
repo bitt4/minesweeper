@@ -1,8 +1,10 @@
+#ifndef MINESWEEPER_HPP
+#define MINESWEEPER_HPP
 #include <SDL2/SDL.h>
 
 class Minesweeper {
 private:
-    enum class Mine {
+    enum class CellType {
         Hidden,
         Flag,
         Question,
@@ -14,7 +16,7 @@ private:
     };
     int width;
     int height;
-    static const cell_width { 16 };
+    static const size_t cell_width { 16 };
 
     uint8_t* mines;
 
@@ -25,6 +27,9 @@ private:
     void reveal_nearby_empty(int x, int y);
 public:
     Minesweeper(int width, int height, int difficulty);
+    ~Minesweeper();
     void render(SDL_Renderer *renderer);
     void click(int x, int y);
 };
+
+#endif //MINESWEEPER_HPP

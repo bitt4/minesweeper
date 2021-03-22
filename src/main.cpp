@@ -37,10 +37,14 @@ int main(){
             case SDL_QUIT:
                 quit = true;
                 break;
+            case SDL_MOUSEBUTTONDOWN:
+                // minesweeper.mouse_down_event(&event);
+                break;
             default:
                 break;
             }
         }
+        // minesweeper.render(renderer);
         SDL_RenderPresent(renderer);
     }
 
