@@ -14,9 +14,9 @@ private:
         Question2,
         Clear = 15
     };
-    const int width;
-    const int height;
-    const int difficulty;
+    const int m_width;
+    const int m_height;
+    const int m_difficulty;
     static const size_t cell_width { 16 };
 
     uint8_t* mines;
