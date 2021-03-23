@@ -3,7 +3,7 @@
 #include <ctime>
 #include <cstdlib>
 
-Minesweeper::Minesweeper(int width, int height, int difficulty)
+Minesweeper::Minesweeper(const int width, const int height, const int difficulty)
     : width(width),
       height(height),
       difficulty(difficulty)
@@ -28,15 +28,15 @@ Minesweeper::~Minesweeper(){
     delete[] mines;
 }
 
-int Minesweeper::get_width(){
+int Minesweeper::get_width() const {
     return width;
 }
 
-int Minesweeper::get_height(){
+int Minesweeper::get_height() const {
     return height;
 }
 
-int Minesweeper::get_nearby_mines(int x, int y){
+int Minesweeper::get_nearby_mines(const int x, const int y) const {
     int nearby = 0;
     for(int i = y-1; i <= y + 1; ++i){
         for(int j = x - 1; j <= x + 1; ++j){
@@ -49,7 +49,7 @@ int Minesweeper::get_nearby_mines(int x, int y){
     return nearby;
 }
 
-void Minesweeper::set_flag(int x, int y, bool flagged = true){
+void Minesweeper::set_flag(const int x, const int y, const bool flagged = true){
     // we can use upper 4 bits for some additional info, since we use
     // only lower 4 bits for cell value (type of mine, etc...),
 
@@ -67,7 +67,7 @@ void Minesweeper::initialize_texture(SDL_Renderer* renderer){
     SDL_FreeSurface(surface);
 }
 
-void Minesweeper::draw_cell(SDL_Renderer* renderer, int x, int y){
+void Minesweeper::draw_cell(SDL_Renderer* renderer, const int x, const int y){
     SDL_Rect texture_read_rect, texture_write_rect;
     int pos = y * height + x;
 
