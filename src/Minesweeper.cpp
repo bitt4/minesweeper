@@ -38,10 +38,10 @@ int Minesweeper::get_height() const {
 
 int Minesweeper::get_nearby_mines(const int x, const int y) const {
     int nearby = 0;
-    for(int i = y-1; i <= y + 1; ++i){
+    for(int i = y - 1; i <= y + 1; ++i){
         for(int j = x - 1; j <= x + 1; ++j){
             if(i != 0 && j != 0 && i >= 0 && j >= 0 && i < m_height && j < m_width){
-                if(mines[y * m_height + x] == CellType::Mine)
+                if(mines[i * m_height + j] == CellType::Mine)
                     nearby++;
             }
         }
@@ -82,4 +82,23 @@ void Minesweeper::draw_cell(SDL_Renderer* renderer, const int x, const int y){
     texture_write_rect.h = cell_width;
 
     SDL_RenderCopy(renderer, cell_textures, &texture_read_rect, &texture_write_rect);
+}
+
+void Minesweeper::reveal_nearby_empty(SDL_Renderer* renderer, const int x, const int y){
+    int pos = y * m_height + x;
+
+    // TODO: make this look simpler
+    if(get_nearby_mines(mines[pos]) == 0){
+        for(int ry = y - 1; ry <= y + 1; ++ry){
+            for(int rx = x - 1; rx <= x + 1; ++rx){
+                if(ry != 0 && rx != 0 && rx >= 0 && rx < m_width && ry >= 0 && ry < m_height)
+                    reveal_nearby_empty(renderer, rx, ry);
+            }
+        }
+        return;
+    }
+}
+
+void Minesweeper::mouse_down_event(SDL_Event *event){
+
 }
