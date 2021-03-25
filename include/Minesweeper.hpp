@@ -1,26 +1,16 @@
 #ifndef MINESWEEPER_HPP
 #define MINESWEEPER_HPP
+
 #include <SDL2/SDL.h>
+#include "../include/Cell.hpp"
 
 class Minesweeper {
 private:
-    enum CellType {
-        Hidden,
-        Flag,
-        Question,
-        TriggeredMine,
-        FalseMine,
-        Mine,
-        Question2,
-        Clear = 15
-    };
-
     const int m_width;
     const int m_height;
     const int m_difficulty;
-    static const size_t cell_width { 16 };
 
-    uint8_t* mines;
+    Cell* cells;
     SDL_Texture* cell_textures;
 
     int get_width() const;
