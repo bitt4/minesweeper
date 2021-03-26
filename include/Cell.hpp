@@ -20,8 +20,7 @@ private:
     bool m_flagged;
 public:
     static const size_t cell_width { 16 };
-    void flag();
-    void unflag();
+    void toggle_flag();
     CellType type() const;
     void set_type(CellType type);
 };

@@ -1,11 +1,7 @@
 #include "../include/Cell.hpp"
 
-void Cell::flag(){
-    m_flagged = true;
-}
-
-void Cell::unflag(){
-    m_flagged = false;
+void Cell::toggle_flag(){
+    m_flagged = !m_flagged;
 }
 
 CellType Cell::type() const {
