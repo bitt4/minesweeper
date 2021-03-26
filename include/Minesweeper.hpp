@@ -23,7 +23,7 @@ private:
 public:
     Minesweeper(const int width, const int height, const int difficulty);
     ~Minesweeper();
-    void mouse_down_event(SDL_Event& event);
+    void mouse_down_event(const SDL_Event& event);
 };
 
 #endif //MINESWEEPER_HPP
