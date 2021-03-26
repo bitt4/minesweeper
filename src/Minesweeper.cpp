@@ -75,7 +75,7 @@ void Minesweeper::reveal_nearby_empty(SDL_Renderer* renderer, const int x, const
     }
 }
 
-void Minesweeper::mouse_down_event(SDL_Event& event){
+void Minesweeper::mouse_down_event(const SDL_Event& event){
     int x = event.button.x;
     int y = event.button.y;
 
