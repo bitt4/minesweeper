@@ -4,10 +4,10 @@
 #include <ctime>
 #include <random>
 
-Minesweeper::Minesweeper(const int width, const int height, const int difficulty)
-    : m_width(width),
-      m_height(height),
-      m_difficulty(difficulty)
+Minesweeper::Minesweeper(const int width, const int height, const int difficulty = 7)
+    : m_width { width },
+      m_height { height },
+      m_difficulty { difficulty }
 {
     size_t mine_field_size = m_width * m_height;
     cells = new Cell[mine_field_size];
@@ -65,13 +65,29 @@ void Minesweeper::reveal_nearby_empty(SDL_Renderer* renderer, const int x, const
     // int pos = y * m_height + x;
 
     // TODO: make this look simpler
-    if(get_nearby_mines(x, y) == 0){
-        for(int ry = y - 1; ry <= y + 1; ++ry){
-            for(int rx = x - 1; rx <= x + 1; ++rx){
+    for(int ry = y - 1; ry <= y + 1; ++ry){
+        for(int rx = x - 1; rx <= x + 1; ++rx){
+            if(cells[ry * m_height + x].type() != CellType::Mine){
                 if(ry != 0 && rx != 0 && rx >= 0 && rx < m_width && ry >= 0 && ry < m_height)
                     reveal_nearby_empty(renderer, rx, ry);
             }
         }
-        return;
+    }
+}
+
+void Minesweeper::mouse_down_event(SDL_Event& event){
+    int x = event.button.x;
+    int y = event.button.y;
+
+    Cell &current_cell = cells[y * m_height + x];
+
+    switch(event.button.button){
+    case SDL_BUTTON_LEFT:
+        break;
+    case SDL_BUTTON_RIGHT:
+        current_cell.toggle_flag();
+        // check_win();
+        break;
+    default: {}
     }
 }

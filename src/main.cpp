@@ -38,7 +38,7 @@ int main(){
                 quit = true;
                 break;
             case SDL_MOUSEBUTTONDOWN:
-                // minesweeper.mouse_down_event(&event);
+                // minesweeper.mouse_down_event(event);
                 break;
             default:
                 break;
