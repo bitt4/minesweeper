@@ -24,7 +24,7 @@ public:
         Nearby1,
         Nearby0,
     };
-    static const size_t cell_width { 16 };
+    static const size_t width { 16 };
     void toggle_flag();
     Type type() const;
     bool revealed() const;
