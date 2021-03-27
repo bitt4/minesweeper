@@ -11,7 +11,6 @@ private:
     const int m_difficulty;
 
     Cell* cells;
-    SDL_Texture* cell_textures;
 
     int get_width() const;
     int get_height() const;

@@ -21,7 +21,7 @@ Minesweeper::Minesweeper(const int width, const int height, const int difficulty
 }
 
 Minesweeper::~Minesweeper(){
-    SDL_DestroyTexture(cell_textures);
+    SDL_DestroyTexture(Cell::get_texture());
     delete[] cells;
 }
 
@@ -40,26 +40,26 @@ int Minesweeper::get_nearby_mines(const int x, const int y) const {
 
 void Minesweeper::initialize_texture(SDL_Renderer* renderer){
     SDL_Surface *surface = SDL_LoadBMP((SDL_GetBasePath() + std::string("../bitmaps/cells.bmp")).c_str());
-    cell_textures = SDL_CreateTextureFromSurface(renderer, surface);
+    Cell::set_texture(SDL_CreateTextureFromSurface(renderer, surface));
     SDL_FreeSurface(surface);
 }
 
-void Minesweeper::draw_cell(SDL_Renderer* renderer, const int x, const int y){
-    SDL_Rect texture_read_rect, texture_write_rect;
-    int pos = y * m_height + x;
+// void Minesweeper::draw_cell(SDL_Renderer* renderer, const int x, const int y){
+//     SDL_Rect texture_read_rect, texture_write_rect;
+//     int pos = y * m_height + x;
 
-    texture_read_rect.x = 0;
-    texture_read_rect.y = Cell::width * static_cast<size_t>(cells[pos].type());
-    texture_read_rect.w = Cell::width;
-    texture_read_rect.h = Cell::width;
+//     texture_read_rect.x = 0;
+//     texture_read_rect.y = Cell::width * static_cast<size_t>(cells[pos].type());
+//     texture_read_rect.w = Cell::width;
+//     texture_read_rect.h = Cell::width;
 
-    texture_write_rect.x = x * Cell::width;
-    texture_write_rect.y = y * Cell::width;
-    texture_write_rect.w = Cell::width;
-    texture_write_rect.h = Cell::width;
+//     texture_write_rect.x = x * Cell::width;
+//     texture_write_rect.y = y * Cell::width;
+//     texture_write_rect.w = Cell::width;
+//     texture_write_rect.h = Cell::width;
 
-    SDL_RenderCopy(renderer, cell_textures, &texture_read_rect, &texture_write_rect);
-}
+//     SDL_RenderCopy(renderer, cell_textures, &texture_read_rect, &texture_write_rect);
+// }
 
 void Minesweeper::reveal_nearby_empty(SDL_Renderer* renderer, const int x, const int y){
     // int pos = y * m_height + x;
