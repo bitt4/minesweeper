@@ -16,7 +16,7 @@ Minesweeper::Minesweeper(const int width, const int height, const int difficulty
     std::mt19937 generator(seed);
     for(size_t i = 0; i < mine_field_size; ++i){
         if(generator() % difficulty == 0)
-            cells[i].set_type(CellType::Mine);
+            cells[i].set_type(Cell::Type::Mine);
     }
 }
 
@@ -30,7 +30,7 @@ int Minesweeper::get_nearby_mines(const int x, const int y) const {
     for(int i = y - 1; i <= y + 1; ++i){
         for(int j = x - 1; j <= x + 1; ++j){
             if(i != 0 && j != 0 && i >= 0 && j >= 0 && i < m_height && j < m_width){
-                if(cells[i * m_height + j].type() == CellType::Mine)
+                if(cells[i * m_height + j].type() == Cell::Type::Mine)
                     nearby++;
             }
         }
@@ -67,7 +67,7 @@ void Minesweeper::reveal_nearby_empty(SDL_Renderer* renderer, const int x, const
     // TODO: make this look simpler
     for(int ry = y - 1; ry <= y + 1; ++ry){
         for(int rx = x - 1; rx <= x + 1; ++rx){
-            if(cells[ry * m_height + x].type() != CellType::Mine){
+            if(cells[ry * m_height + x].type() != Cell::Type::Mine){
                 if(ry != 0 && rx != 0 && rx >= 0 && rx < m_width && ry >= 0 && ry < m_height)
                     reveal_nearby_empty(renderer, rx, ry);
             }
