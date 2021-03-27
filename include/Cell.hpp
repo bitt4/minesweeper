@@ -3,6 +3,7 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <SDL2/SDL.h>
 
 class Cell {
 public:
@@ -30,10 +31,13 @@ public:
     bool revealed() const;
     void reveal();
     void set_type(Type type);
+    static void set_texture(SDL_Texture* texture);
+    static SDL_Texture* get_texture();
 private:
     Type m_type { Type::Nearby0 };
     bool m_flagged;
     bool m_revealed;
+    static SDL_Texture* m_texture;
 };
 
 #endif //CELL_HPP
