@@ -39,7 +39,7 @@ int Minesweeper::get_nearby_mines(const int x, const int y) const {
 }
 
 void Minesweeper::initialize_texture(SDL_Renderer* renderer){
-    SDL_Surface *surface = SDL_LoadBMP((SDL_GetBasePath() + std::string("../bitmaps/items.bmp")).c_str());
+    SDL_Surface *surface = SDL_LoadBMP((SDL_GetBasePath() + std::string("../bitmaps/cells.bmp")).c_str());
     cell_textures = SDL_CreateTextureFromSurface(renderer, surface);
     SDL_FreeSurface(surface);
 }
