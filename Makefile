@@ -3,6 +3,7 @@ SRCDIR = src
 OBJDIR = obj
 SRC = $(wildcard $(SRCDIR)/*.cpp)
 OBJ = $(patsubst $(SRCDIR)/%.cpp,$(OBJDIR)/%.o, $(SRC))
+BUILT_OBJ = $(wildcard $(OBJDIR)/*.o)
 CXXFLAGS = -O3 -std=c++11 -Werror -Wall -Wextra -pedantic
 
 all: $(EXECUTABLE)
@@ -17,4 +18,4 @@ run:
 	./$(EXECUTABLE)
 
 clean:
-	rm $(OBJ) $(EXECUTABLE)
+	rm $(BUILT_OBJ) $(EXECUTABLE)
