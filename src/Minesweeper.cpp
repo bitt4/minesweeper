@@ -76,8 +76,8 @@ void Minesweeper::reveal_nearby_empty(SDL_Renderer* renderer, const int x, const
 }
 
 void Minesweeper::mouse_down_event(const SDL_Event& event){
-    int x = event.button.x;
-    int y = event.button.y;
+    int x = event.button.x / Cell::cell_width;
+    int y = event.button.y / Cell::cell_width;
 
     Cell &current_cell = cells[y * m_height + x];
 
