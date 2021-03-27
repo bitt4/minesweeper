@@ -49,14 +49,14 @@ void Minesweeper::draw_cell(SDL_Renderer* renderer, const int x, const int y){
     int pos = y * m_height + x;
 
     texture_read_rect.x = 0;
-    texture_read_rect.y = Cell::cell_width * static_cast<size_t>(cells[pos].type());
-    texture_read_rect.w = Cell::cell_width;
-    texture_read_rect.h = Cell::cell_width;
+    texture_read_rect.y = Cell::width * static_cast<size_t>(cells[pos].type());
+    texture_read_rect.w = Cell::width;
+    texture_read_rect.h = Cell::width;
 
-    texture_write_rect.x = x * Cell::cell_width;
-    texture_write_rect.y = y * Cell::cell_width;
-    texture_write_rect.w = Cell::cell_width;
-    texture_write_rect.h = Cell::cell_width;
+    texture_write_rect.x = x * Cell::width;
+    texture_write_rect.y = y * Cell::width;
+    texture_write_rect.w = Cell::width;
+    texture_write_rect.h = Cell::width;
 
     SDL_RenderCopy(renderer, cell_textures, &texture_read_rect, &texture_write_rect);
 }
@@ -76,8 +76,8 @@ void Minesweeper::reveal_nearby_empty(SDL_Renderer* renderer, const int x, const
 }
 
 void Minesweeper::mouse_down_event(const SDL_Event& event){
-    int x = event.button.x / Cell::cell_width;
-    int y = event.button.y / Cell::cell_width;
+    int x = event.button.x / Cell::width;
+    int y = event.button.y / Cell::width;
 
     Cell &current_cell = cells[y * m_height + x];
 
