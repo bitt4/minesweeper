@@ -4,7 +4,7 @@
 int main(){
 
     if(SDL_Init(SDL_INIT_VIDEO) != 0){
-        fprintf(stderr, "SDL Initialization error.\n");
+        fprintf(stderr, "SDL Initialization error: %s\n", SDL_GetError());
         return EXIT_FAILURE;
     }
 
@@ -16,7 +16,7 @@ int main(){
                                           SDL_WINDOW_SHOWN);
 
     if(window == NULL){
-        fprintf(stderr, "Window creation failed.\n");
+        fprintf(stderr, "Window creation failed: %s\n", SDL_GetError());
         return EXIT_FAILURE;
     }
 
@@ -25,7 +25,7 @@ int main(){
                                                 SDL_RENDERER_ACCELERATED);
 
     if(renderer == NULL){
-        fprintf(stderr, "Renderer creation failed.\n");
+        fprintf(stderr, "Renderer creation failed: %s\n", SDL_GetError());
     }
 
     bool quit = false;
