@@ -11,3 +11,11 @@ Cell::Type Cell::type() const {
 void Cell::set_type(Cell::Type type){
     m_type = type;
 }
+
+bool Cell::revealed() const {
+    return m_revealed;
+}
+
+void Cell::reveal(){
+    m_revealed = true;
+}

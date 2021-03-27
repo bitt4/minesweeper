@@ -27,10 +27,13 @@ public:
     static const size_t cell_width { 16 };
     void toggle_flag();
     Type type() const;
+    bool revealed() const;
+    void reveal();
     void set_type(Type type);
 private:
     Type m_type { Type::Nearby0 };
     bool m_flagged;
+    bool m_revealed;
 };
 
 #endif //CELL_HPP
