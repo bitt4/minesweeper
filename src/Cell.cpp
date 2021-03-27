@@ -4,10 +4,10 @@ void Cell::toggle_flag(){
     m_flagged = !m_flagged;
 }
 
-CellType Cell::type() const {
+Cell::Type Cell::type() const {
     return m_type;
 }
 
-void Cell::set_type(CellType type){
+void Cell::set_type(Cell::Type type){
     m_type = type;
 }
