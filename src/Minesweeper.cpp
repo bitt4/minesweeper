@@ -18,6 +18,14 @@ Minesweeper::Minesweeper(const int width, const int height, const int difficulty
             cell.set_type(Cell::Type::Mine);
     }
 
+    for(int y = 0; y < m_height; ++y){
+        for(int x = 0; x < m_width; ++x){
+            int pos = y * m_height + x;
+            if(cells[pos].type() != Cell::Type::Mine){
+                int nearby = get_nearby_mines(x, y);
+                cells[pos].set_type(static_cast<Cell::Type>(15 - nearby)); // TODO: maybe add helper funciton for this?
+            }
+        }
     }
 }
 
@@ -67,7 +75,10 @@ void Minesweeper::reveal_nearby_empty(SDL_Renderer* renderer, const int x, const
     // TODO: make this look simpler
     for(int ry = y - 1; ry <= y + 1; ++ry){
         for(int rx = x - 1; rx <= x + 1; ++rx){
-            if(cells[ry * m_height + x].type() != Cell::Type::Mine){
+            Cell &current_cell = cells[ry * m_height + rx];
+            if(current_cell.type() != Cell::Type::Mine && !current_cell.revealed()){
+                current_cell.reveal();
+                // current_cell.render(renderer);
                 if(ry != 0 && rx != 0 && rx >= 0 && rx < m_width && ry >= 0 && ry < m_height)
                     reveal_nearby_empty(renderer, rx, ry);
             }
@@ -83,9 +94,20 @@ void Minesweeper::mouse_down_event(const SDL_Event& event){
 
     switch(event.button.button){
     case SDL_BUTTON_LEFT:
+        if(current_cell.type() == Cell::Type::Mine){
+            // reveal_all_cells();
+            // current_cell.render(renderer, Cell::Type::TriggeredMine);
+            // game_over();
+            return;
+        }
+        if(!current_cell.revealed()){
+            current_cell.reveal();
+            // current_cell.render(renderer);
+        }
         break;
     case SDL_BUTTON_RIGHT:
         current_cell.toggle_flag();
+        // current_cell.render(renderer);
         // check_win();
         break;
     default: {}
