@@ -8,20 +8,21 @@ Minesweeper::Minesweeper(const int width, const int height, const int difficulty
       m_height { height },
       m_difficulty { difficulty }
 {
-    size_t mine_field_size = m_width * m_height;
-    cells = new Cell[mine_field_size];
+    size_t cell_field_size = m_width * m_height;
+    cells.resize(cell_field_size);
 
     time_t seed = time(NULL);
     std::mt19937 generator(seed);
-    for(size_t i = 0; i < mine_field_size; ++i){
+    for(Cell &cell : cells){
         if(generator() % difficulty == 0)
-            cells[i].set_type(Cell::Type::Mine);
+            cell.set_type(Cell::Type::Mine);
+    }
+
     }
 }
 
 Minesweeper::~Minesweeper(){
     SDL_DestroyTexture(Cell::get_texture());
-    delete[] cells;
 }
 
 int Minesweeper::get_nearby_mines(const int x, const int y) const {

@@ -3,6 +3,7 @@
 
 #include <SDL2/SDL.h>
 #include "../include/Cell.hpp"
+#include <vector>
 
 class Minesweeper {
 private:
@@ -10,7 +11,7 @@ private:
     const int m_height;
     const int m_difficulty;
 
-    Cell* cells;
+    std::vector<Cell> cells;
 
     int get_width() const;
     int get_height() const;
