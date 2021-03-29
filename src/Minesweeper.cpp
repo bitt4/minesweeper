@@ -1,6 +1,5 @@
 #include "../include/Cell.hpp"
 #include "../include/Minesweeper.hpp"
-#include <cstdlib>
 #include <ctime>
 #include <random>
 
