@@ -38,3 +38,25 @@ void Cell::set_texture(SDL_Texture* texture){
 SDL_Texture* Cell::get_texture(){
     return m_texture;
 }
+
+void Cell::render(SDL_Renderer* renderer, Cell::Type type){
+    reveal();
+
+    SDL_Rect texture_read_rect, texture_write_rect;
+
+    texture_read_rect.x = 0;
+    texture_read_rect.y = Cell::width * static_cast<size_t>(type);
+    texture_read_rect.w = Cell::width;
+    texture_read_rect.h = Cell::width;
+
+    texture_write_rect.x = m_x * Cell::width;
+    texture_write_rect.y = m_y * Cell::width;
+    texture_write_rect.w = Cell::width;
+    texture_write_rect.h = Cell::width;
+
+    SDL_RenderCopy(renderer, Cell::m_texture, &texture_read_rect, &texture_write_rect);
+}
+
+void Cell::render(SDL_Renderer* renderer){
+    render(renderer, m_type);
+}

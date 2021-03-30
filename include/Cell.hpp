@@ -32,6 +32,8 @@ public:
     bool revealed() const;
     void reveal();
     void set_type(Type type);
+    void render(SDL_Renderer* renderer);
+    void render(SDL_Renderer* renderer, Type type);
     static void set_texture(SDL_Texture* texture);
     static SDL_Texture* get_texture();
 private:
