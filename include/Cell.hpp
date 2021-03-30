@@ -26,6 +26,7 @@ public:
         Nearby0,
     };
     static const size_t width { 16 };
+    Cell(const int x, const int y, Type type);
     void toggle_flag();
     Type type() const;
     bool revealed() const;
@@ -34,6 +35,8 @@ public:
     static void set_texture(SDL_Texture* texture);
     static SDL_Texture* get_texture();
 private:
+    int m_x;
+    int m_y;
     Type m_type { Type::Nearby0 };
     bool m_flagged;
     bool m_revealed;

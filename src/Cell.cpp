@@ -3,6 +3,14 @@
 
 SDL_Texture* Cell::m_texture { nullptr };
 
+Cell::Cell(const int x, const int y, const Cell::Type type = Cell::Type::Nearby0)
+    : m_x { x },
+      m_y { y },
+      m_type { type }
+{
+
+}
+
 void Cell::toggle_flag(){
     m_flagged = !m_flagged;
 }
