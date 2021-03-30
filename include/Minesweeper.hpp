@@ -21,7 +21,7 @@ private:
     void draw_cell(SDL_Renderer* renderer, const int x, const int y);
     void reveal_nearby_empty(SDL_Renderer* renderer, const int x, const int y);
 public:
-    Minesweeper(const int width, const int height, const int difficulty);
+    Minesweeper(const int width, const int height, const int difficulty = 7);
     ~Minesweeper();
     void mouse_down_event(const SDL_Event& event);
 };

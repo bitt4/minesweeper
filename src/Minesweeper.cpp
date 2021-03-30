@@ -3,7 +3,7 @@
 #include <ctime>
 #include <random>
 
-Minesweeper::Minesweeper(const int width, const int height, const int difficulty = 7)
+Minesweeper::Minesweeper(const int width, const int height, const int difficulty)
     : m_width { width },
       m_height { height },
       m_difficulty { difficulty }
