@@ -3,7 +3,7 @@
 
 SDL_Texture* Cell::m_texture { nullptr };
 
-Cell::Cell(const int x, const int y, const Cell::Type type = Cell::Type::Nearby0)
+Cell::Cell(const int x, const int y, const Cell::Type type)
     : m_x { x },
       m_y { y },
       m_type { type }
