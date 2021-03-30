@@ -8,14 +8,16 @@ Minesweeper::Minesweeper(const int width, const int height, const int difficulty
       m_height { height },
       m_difficulty { difficulty }
 {
-    size_t cell_field_size = m_width * m_height;
-    cells.resize(cell_field_size);
-
     time_t seed = time(NULL);
     std::mt19937 generator(seed);
-    for(Cell &cell : cells){
-        if(generator() % difficulty == 0)
-            cell.set_type(Cell::Type::Mine);
+
+    for(int y = 0; y < m_height; ++y){
+        for(int x = 0; x < m_width; ++x){
+            Cell::Type cell_type = Cell::Type::Nearby0;
+            if(generator() % difficulty == 0)
+                cell_type = Cell::Type::Mine;
+            cells.push_back(Cell(x, y, cell_type));
+        }
     }
 
     for(int y = 0; y < m_height; ++y){
@@ -33,6 +35,14 @@ Minesweeper::~Minesweeper(){
     SDL_DestroyTexture(Cell::get_texture());
 }
 
+int Minesweeper::get_window_width() const {
+    return m_width * Cell::width;
+}
+
+int Minesweeper::get_window_height() const {
+    return m_height * Cell::width;
+}
+
 int Minesweeper::get_nearby_mines(const int x, const int y) const {
     int nearby = 0;
     for(int i = y - 1; i <= y + 1; ++i){
@@ -47,27 +57,10 @@ int Minesweeper::get_nearby_mines(const int x, const int y) const {
 }
 
 void Minesweeper::initialize_texture(SDL_Renderer* renderer){
-    SDL_Surface *surface = SDL_LoadBMP((SDL_GetBasePath() + std::string("../bitmaps/cells.bmp")).c_str());
+    SDL_Surface *surface = SDL_LoadBMP((SDL_GetBasePath() + std::string("bitmaps/cells.bmp")).c_str());
     Cell::set_texture(SDL_CreateTextureFromSurface(renderer, surface));
     SDL_FreeSurface(surface);
 }
-
-// void Minesweeper::draw_cell(SDL_Renderer* renderer, const int x, const int y){
-//     SDL_Rect texture_read_rect, texture_write_rect;
-//     int pos = y * m_height + x;
-
-//     texture_read_rect.x = 0;
-//     texture_read_rect.y = Cell::width * static_cast<size_t>(cells[pos].type());
-//     texture_read_rect.w = Cell::width;
-//     texture_read_rect.h = Cell::width;
-
-//     texture_write_rect.x = x * Cell::width;
-//     texture_write_rect.y = y * Cell::width;
-//     texture_write_rect.w = Cell::width;
-//     texture_write_rect.h = Cell::width;
-
-//     SDL_RenderCopy(renderer, cell_textures, &texture_read_rect, &texture_write_rect);
-// }
 
 void Minesweeper::reveal_nearby_empty(SDL_Renderer* renderer, const int x, const int y){
     // int pos = y * m_height + x;
@@ -83,6 +76,12 @@ void Minesweeper::reveal_nearby_empty(SDL_Renderer* renderer, const int x, const
                     reveal_nearby_empty(renderer, rx, ry);
             }
         }
+    }
+}
+
+void Minesweeper::render_hidden_field(SDL_Renderer* renderer){
+    for(Cell &cell : cells){
+        cell.render(renderer, Cell::Type::Hidden);
     }
 }
 

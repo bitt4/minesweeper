@@ -1,5 +1,7 @@
 #include <SDL2/SDL.h>
 #include <cstdio>
+#include "../include/Minesweeper.hpp"
+#include "../include/Cell.hpp"
 
 int main(){
 
@@ -8,11 +10,13 @@ int main(){
         return EXIT_FAILURE;
     }
 
+    Minesweeper minesweeper(24, 24);
+
     SDL_Window *window = SDL_CreateWindow("Minesweeper",
                                           SDL_WINDOWPOS_CENTERED,
                                           SDL_WINDOWPOS_CENTERED,
-                                          640/*minesweeper.get_width()*/,
-                                          640/*minesweeper.get_height()*/,
+                                          minesweeper.get_window_width(),
+                                          minesweeper.get_window_height(),
                                           SDL_WINDOW_SHOWN);
 
     if(window == NULL){
@@ -27,6 +31,10 @@ int main(){
     if(renderer == NULL){
         fprintf(stderr, "Renderer creation failed: %s\n", SDL_GetError());
     }
+
+    minesweeper.initialize_texture(renderer);
+    minesweeper.render_hidden_field(renderer);
+    SDL_RenderPresent(renderer);
 
     bool quit = false;
     SDL_Event e;
