@@ -54,7 +54,10 @@ void Cell::render(SDL_Renderer* renderer, Cell::Type type){
     texture_write_rect.w = Cell::width;
     texture_write_rect.h = Cell::width;
 
-    SDL_RenderCopy(renderer, Cell::m_texture, &texture_read_rect, &texture_write_rect);
+    int render_copy_result = SDL_RenderCopy(renderer, Cell::m_texture, &texture_read_rect, &texture_write_rect);
+    if(render_copy_result < 0){
+        fprintf(stderr, "Failed to render texture: %s\n", SDL_GetError());
+    }
 }
 
 void Cell::render(SDL_Renderer* renderer){
