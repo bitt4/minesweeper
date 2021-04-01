@@ -118,21 +118,23 @@ void Minesweeper::mouse_down_event(const SDL_Event& event){
 
     switch(event.button.button){
     case SDL_BUTTON_LEFT:
-        if(current_cell.type() == Cell::Type::Mine){
-            reveal_all_cells();
-            current_cell.render(m_renderer, Cell::Type::TriggeredMine);
-            // game_over();
-            return;
-        }
-        if(current_cell.type() == Cell::Type::Nearby0 && !current_cell.revealed()){
-            current_cell.reveal();
-            current_cell.render(m_renderer);
-            reveal_nearby_empty(x, y);
-            return;
-        }
-        if(!current_cell.revealed()){
-            current_cell.reveal();
-            current_cell.render(m_renderer);
+        if(!current_cell.flagged()){
+            if(current_cell.type() == Cell::Type::Mine){
+                reveal_all_cells();
+                current_cell.render(m_renderer, Cell::Type::TriggeredMine);
+                // game_over();
+                return;
+            }
+            if(current_cell.type() == Cell::Type::Nearby0 && !current_cell.revealed()){
+                current_cell.reveal();
+                current_cell.render(m_renderer);
+                reveal_nearby_empty(x, y);
+                return;
+            }
+            if(!current_cell.revealed()){
+                current_cell.reveal();
+                current_cell.render(m_renderer);
+            }
         }
         break;
     case SDL_BUTTON_RIGHT:
