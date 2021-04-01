@@ -1,7 +1,6 @@
+#include "../include/Minesweeper.hpp"
 #include <SDL2/SDL.h>
 #include <cstdio>
-#include "../include/Minesweeper.hpp"
-#include "../include/Cell.hpp"
 
 int main(){
 
@@ -19,7 +18,7 @@ int main(){
                                           minesweeper.get_window_height(),
                                           SDL_WINDOW_SHOWN);
 
-    if(window == NULL){
+    if(window == nullptr){
         fprintf(stderr, "Window creation failed: %s\n", SDL_GetError());
         return EXIT_FAILURE;
     }
@@ -28,7 +27,7 @@ int main(){
                                                 -1,
                                                 SDL_RENDERER_ACCELERATED);
 
-    if(renderer == NULL){
+    if(renderer == nullptr){
         fprintf(stderr, "Renderer creation failed: %s\n", SDL_GetError());
     }
 
