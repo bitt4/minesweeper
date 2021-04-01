@@ -15,6 +15,10 @@ void Cell::toggle_flag(){
     m_flagged = !m_flagged;
 }
 
+bool Cell::flagged() const {
+    return m_flagged;
+}
+
 Cell::Type Cell::type() const {
     return m_type;
 }
@@ -40,8 +44,6 @@ SDL_Texture* Cell::get_texture(){
 }
 
 void Cell::render(SDL_Renderer* renderer, Cell::Type type){
-    reveal();
-
     SDL_Rect texture_read_rect, texture_write_rect;
 
     texture_read_rect.x = 0;

@@ -82,17 +82,18 @@ void Minesweeper::initialize_texture(){
 }
 
 void Minesweeper::reveal_nearby_empty(const int x, const int y){
-    // int pos = y * m_height + x;
-
     // TODO: make this look simpler
     for(int ry = y - 1; ry <= y + 1; ++ry){
         for(int rx = x - 1; rx <= x + 1; ++rx){
             Cell &current_cell = cells[ry * m_height + rx];
-            if(current_cell.type() != Cell::Type::Mine && !current_cell.revealed()){
-                current_cell.reveal();
-                // current_cell.render(m_renderer);
-                if(ry != 0 && rx != 0 && rx >= 0 && rx < m_width && ry >= 0 && ry < m_height)
-                    reveal_nearby_empty(rx, ry);
+            // TODO: use helper function to determine if certain coordinates are valid
+            if(!(ry == y && rx == x) && rx >= 0 && rx < m_width && ry >= 0 && ry < m_height){
+                if(current_cell.type() != Cell::Type::Mine && !current_cell.revealed()){
+                    current_cell.reveal();
+                    current_cell.render(m_renderer);
+                    if(current_cell.type() == Cell::Type::Nearby0)
+                        reveal_nearby_empty(rx, ry);
+                }
             }
         }
     }
@@ -119,19 +120,27 @@ void Minesweeper::mouse_down_event(const SDL_Event& event){
     case SDL_BUTTON_LEFT:
         if(current_cell.type() == Cell::Type::Mine){
             reveal_all_cells();
-            // current_cell.render(m_renderer, Cell::Type::TriggeredMine);
+            current_cell.render(m_renderer, Cell::Type::TriggeredMine);
             // game_over();
+            return;
+        }
+        if(current_cell.type() == Cell::Type::Nearby0 && !current_cell.revealed()){
+            current_cell.reveal();
+            current_cell.render(m_renderer);
+            reveal_nearby_empty(x, y);
             return;
         }
         if(!current_cell.revealed()){
             current_cell.reveal();
-            // current_cell.render(m_renderer);
+            current_cell.render(m_renderer);
         }
         break;
     case SDL_BUTTON_RIGHT:
-        current_cell.toggle_flag();
-        // current_cell.render(m_renderer);
-        // check_win();
+        if(!current_cell.revealed()){
+            current_cell.toggle_flag();
+            current_cell.render(m_renderer, current_cell.flagged() ? Cell::Type::Flag : Cell::Type::Hidden);
+            // check_win();
+        }
         break;
     default: {}
     }
