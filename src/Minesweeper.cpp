@@ -93,6 +93,11 @@ void Minesweeper::render_hidden_field(){
     }
 }
 
+void Minesweeper::reveal_all_cells(){
+    for(Cell &cell : cells)
+        cell.render(m_renderer);
+}
+
 void Minesweeper::mouse_down_event(const SDL_Event& event){
     int x = event.button.x / Cell::width;
     int y = event.button.y / Cell::width;
@@ -102,7 +107,7 @@ void Minesweeper::mouse_down_event(const SDL_Event& event){
     switch(event.button.button){
     case SDL_BUTTON_LEFT:
         if(current_cell.type() == Cell::Type::Mine){
-            // reveal_all_cells();
+            reveal_all_cells();
             // current_cell.render(m_renderer, Cell::Type::TriggeredMine);
             // game_over();
             return;
