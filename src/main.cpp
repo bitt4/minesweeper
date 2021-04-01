@@ -32,8 +32,9 @@ int main(){
         fprintf(stderr, "Renderer creation failed: %s\n", SDL_GetError());
     }
 
-    minesweeper.initialize_texture(renderer);
-    minesweeper.render_hidden_field(renderer);
+    minesweeper.assign_renderer(renderer);
+    minesweeper.initialize_texture();
+    minesweeper.render_hidden_field();
     SDL_RenderPresent(renderer);
 
     bool quit = false;
