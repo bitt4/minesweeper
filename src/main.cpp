@@ -1,15 +1,16 @@
 #include "../include/Minesweeper.hpp"
 #include <SDL2/SDL.h>
 #include <cstdio>
+#include <string>
 
 int main(){
 
     if(SDL_Init(SDL_INIT_VIDEO) != 0){
         fprintf(stderr, "SDL Initialization error: %s\n", SDL_GetError());
-        return EXIT_FAILURE;
+        return 1;
     }
 
-    Minesweeper minesweeper(24, 24);
+    Minesweeper minesweeper(8, 8);
 
     SDL_Window *window = SDL_CreateWindow("Minesweeper",
                                           SDL_WINDOWPOS_CENTERED,
@@ -20,7 +21,7 @@ int main(){
 
     if(window == nullptr){
         fprintf(stderr, "Window creation failed: %s\n", SDL_GetError());
-        return EXIT_FAILURE;
+        return 1;
     }
 
     SDL_Renderer *renderer = SDL_CreateRenderer(window,
@@ -30,6 +31,18 @@ int main(){
     if(renderer == nullptr){
         fprintf(stderr, "Renderer creation failed: %s\n", SDL_GetError());
     }
+
+    char* base_path = SDL_GetBasePath();
+    SDL_Surface *icon = SDL_LoadBMP((base_path + std::string("bitmaps/icon.bmp")).c_str());
+    SDL_free(base_path);
+
+    if(icon == nullptr){
+        fprintf(stderr, "Could not load icon: %s\n", SDL_GetError());
+        return 1;
+    }
+
+    SDL_SetWindowIcon(window, icon);
+    SDL_FreeSurface(icon);
 
     minesweeper.assign_renderer(renderer);
     minesweeper.initialize_texture();
