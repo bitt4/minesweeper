@@ -19,6 +19,7 @@ private:
     void draw_cell(const int x, const int y);
     void reveal_nearby_empty(const int x, const int y);
     void reveal_all_cells();
+    bool check_win() const;
 public:
     Minesweeper(const int width, const int height, const int difficulty = 7);
     ~Minesweeper();
