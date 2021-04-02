@@ -11,6 +11,8 @@ Minesweeper::Minesweeper(const int width, const int height, const int difficulty
     time_t seed = time(nullptr);
     std::mt19937 generator(seed);
 
+    cells.reserve(m_width * m_height);
+
     for(int y = 0; y < m_height; ++y){
         for(int x = 0; x < m_width; ++x){
             Cell::Type cell_type = Cell::Type::Nearby0;
