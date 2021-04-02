@@ -110,6 +110,14 @@ void Minesweeper::reveal_all_cells(){
         cell.render(m_renderer);
 }
 
+bool Minesweeper::check_win() const {
+    for(Cell cell : cells){
+        if((cell.type() == Cell::Type::Mine && !cell.flagged()) || (cell.type() != Cell::Type::Mine && cell.flagged()))
+            return false;
+    }
+    return true;
+}
+
 void Minesweeper::mouse_down_event(const SDL_Event& event){
     int x = event.button.x / Cell::width;
     int y = event.button.y / Cell::width;
@@ -141,7 +149,9 @@ void Minesweeper::mouse_down_event(const SDL_Event& event){
         if(!current_cell.revealed()){
             current_cell.toggle_flag();
             current_cell.render(m_renderer, current_cell.flagged() ? Cell::Type::Flag : Cell::Type::Hidden);
-            // check_win();
+            if(check_win()){
+                // restart();
+            }
         }
         break;
     default: {}
