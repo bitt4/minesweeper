@@ -3,6 +3,8 @@
 #include <ctime>
 #include <random>
 
+Cell::Type nearby_mines_to_cell_type(int nearby);
+
 Minesweeper::Minesweeper(const int width, const int height, const int difficulty)
     : m_width { width },
       m_height { height },
@@ -27,7 +29,7 @@ Minesweeper::Minesweeper(const int width, const int height, const int difficulty
             int pos = y * m_height + x;
             if(cells[pos].type() != Cell::Type::Mine){
                 int nearby = get_nearby_mines(x, y);
-                cells[pos].set_type(static_cast<Cell::Type>(15 - nearby)); // TODO: maybe add helper funciton for this?
+                cells[pos].set_type(nearby_mines_to_cell_type(nearby));
             }
         }
     }
@@ -60,6 +62,12 @@ int Minesweeper::get_nearby_mines(const int x, const int y) const {
         }
     }
     return nearby;
+}
+
+Cell::Type nearby_mines_to_cell_type(int nearby){
+    return static_cast<Cell::Type>(15 - nearby);
+    /* This works because of the way cell textures are organized in
+     * bitmaps/cells.bmp */
 }
 
 void Minesweeper::initialize_texture(){
