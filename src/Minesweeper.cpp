@@ -3,7 +3,7 @@
 #include <ctime>
 #include <random>
 
-Cell::Type nearby_mines_to_cell_type(int nearby);
+Cell::Type nearby_mines_to_cell_type(const int nearby);
 
 Minesweeper::Minesweeper(const int width, const int height, const int difficulty)
     : m_width { width },
@@ -51,11 +51,15 @@ int Minesweeper::get_window_height() const {
     return m_height * Cell::width;
 }
 
+bool Minesweeper::valid_coordinates(const int x, const int y) const {
+    return y >= 0 && x >= 0 && y < m_height && x < m_width;
+}
+
 int Minesweeper::get_nearby_mines(const int x, const int y) const {
     int nearby = 0;
     for(int i = y - 1; i <= y + 1; ++i){
         for(int j = x - 1; j <= x + 1; ++j){
-            if(!(i == y && j == x) && i >= 0 && j >= 0 && i < m_height && j < m_width){
+            if(!(i == y && j == x) && valid_coordinates(j, i)){
                 if(cells[i * m_height + j].type() == Cell::Type::Mine)
                     nearby++;
             }
@@ -64,7 +68,7 @@ int Minesweeper::get_nearby_mines(const int x, const int y) const {
     return nearby;
 }
 
-Cell::Type nearby_mines_to_cell_type(int nearby){
+Cell::Type nearby_mines_to_cell_type(const int nearby) {
     return static_cast<Cell::Type>(15 - nearby);
     /* This works because of the way cell textures are organized in
      * bitmaps/cells.bmp */
@@ -96,8 +100,7 @@ void Minesweeper::reveal_nearby_empty(const int x, const int y){
     for(int ry = y - 1; ry <= y + 1; ++ry){
         for(int rx = x - 1; rx <= x + 1; ++rx){
             Cell &current_cell = cells[ry * m_height + rx];
-            // TODO: use helper function to determine if certain coordinates are valid
-            if(!(ry == y && rx == x) && rx >= 0 && rx < m_width && ry >= 0 && ry < m_height){
+            if(!(ry == y && rx == x) && valid_coordinates(rx, ry)){
                 if(current_cell.type() != Cell::Type::Mine && !current_cell.revealed()){
                     current_cell.reveal();
                     current_cell.render(m_renderer);
