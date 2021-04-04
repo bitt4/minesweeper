@@ -141,6 +141,12 @@ bool Minesweeper::check_win() const {
 }
 
 void Minesweeper::mouse_down_event(const SDL_Event& event){
+    if(m_game_over){
+        render_hidden_field();
+        m_game_over = false;
+        return;
+    }
+
     int x = event.button.x / Cell::width;
     int y = event.button.y / Cell::width;
 
@@ -152,7 +158,7 @@ void Minesweeper::mouse_down_event(const SDL_Event& event){
             if(current_cell.type() == Cell::Type::Mine){
                 reveal_all_cells();
                 current_cell.render(m_renderer, Cell::Type::TriggeredMine);
-                // game_over();
+                m_game_over = true;
                 return;
             }
             if(current_cell.type() == Cell::Type::Nearby0 && !current_cell.revealed()){
@@ -172,7 +178,8 @@ void Minesweeper::mouse_down_event(const SDL_Event& event){
             current_cell.toggle_flag();
             current_cell.render(m_renderer, current_cell.flagged() ? Cell::Type::Flag : Cell::Type::Hidden);
             if(check_win()){
-                // restart();
+                reveal_all_cells();
+                m_game_over = true;
             }
         }
         break;
