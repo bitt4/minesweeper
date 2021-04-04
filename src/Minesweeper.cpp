@@ -8,31 +8,11 @@ Cell::Type nearby_mines_to_cell_type(const int nearby);
 Minesweeper::Minesweeper(const int width, const int height, const int difficulty)
     : m_width { width },
       m_height { height },
-      m_difficulty { difficulty }
+      m_difficulty { difficulty },
+      m_generator { std::mt19937(time(nullptr)) }
 {
-    time_t seed = time(nullptr);
-    std::mt19937 generator(seed);
-
-    cells.reserve(m_width * m_height);
-
-    for(int y = 0; y < m_height; ++y){
-        for(int x = 0; x < m_width; ++x){
-            Cell::Type cell_type = Cell::Type::Nearby0;
-            if(generator() % difficulty == 0)
-                cell_type = Cell::Type::Mine;
-            cells.push_back(Cell(x, y, cell_type));
-        }
-    }
-
-    for(int y = 0; y < m_height; ++y){
-        for(int x = 0; x < m_width; ++x){
-            int pos = y * m_height + x;
-            if(cells[pos].type() != Cell::Type::Mine){
-                int nearby = get_nearby_mines(x, y);
-                cells[pos].set_type(nearby_mines_to_cell_type(nearby));
-            }
-        }
-    }
+    cells.resize(m_width * m_height);
+    generate_cells();
 }
 
 Minesweeper::~Minesweeper(){
@@ -140,8 +120,31 @@ bool Minesweeper::check_win() const {
     return true;
 }
 
+void Minesweeper::generate_cells(){
+    for(int y = 0; y < m_height; ++y){
+        for(int x = 0; x < m_width; ++x){
+            int pos = y * m_height + x;
+            Cell::Type cell_type = Cell::Type::Nearby0;
+            if(m_generator() % m_difficulty == 0)
+                cell_type = Cell::Type::Mine;
+            cells[pos] = Cell(x, y, cell_type);
+        }
+    }
+
+    for(int y = 0; y < m_height; ++y){
+        for(int x = 0; x < m_width; ++x){
+            int pos = y * m_height + x;
+            if(cells[pos].type() != Cell::Type::Mine){
+                int nearby = get_nearby_mines(x, y);
+                cells[pos].set_type(nearby_mines_to_cell_type(nearby));
+            }
+        }
+    }
+}
+
 void Minesweeper::mouse_down_event(const SDL_Event& event){
     if(m_game_over){
+        generate_cells();
         render_hidden_field();
         m_game_over = false;
         return;
