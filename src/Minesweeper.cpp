@@ -119,8 +119,17 @@ void Minesweeper::render_hidden_field(){
 }
 
 void Minesweeper::reveal_all_cells(){
-    for(Cell &cell : cells)
+    for(Cell &cell : cells){
+        if(cell.type() == Cell::Type::Mine && cell.flagged()){
+            cell.render(m_renderer, Cell::Type::Flag);
+            continue;
+        }
+        if(cell.type() != Cell::Type::Mine && cell.flagged()){
+            cell.render(m_renderer, Cell::Type::FalseMine);
+            continue;
+        }
         cell.render(m_renderer);
+    }
 }
 
 bool Minesweeper::check_win() const {
