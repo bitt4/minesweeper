@@ -26,7 +26,8 @@ public:
         Nearby0,
     };
     static const size_t width { 16 };
-    Cell(const int x, const int y, Type type);
+    explicit Cell(const int x, const int y, Type type);
+    explicit Cell() = default;
     Type type() const;
     void toggle_flag();
     bool flagged() const;

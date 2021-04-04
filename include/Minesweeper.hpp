@@ -3,6 +3,7 @@
 
 #include <SDL2/SDL.h>
 #include "../include/Cell.hpp"
+#include <random>
 #include <vector>
 
 class Minesweeper {
@@ -10,6 +11,8 @@ private:
     const int m_width;
     const int m_height;
     const int m_difficulty;
+    bool m_game_over { false };
+    std::mt19937 m_generator;
     SDL_Renderer* m_renderer;
 
     std::vector<Cell> cells;
@@ -21,6 +24,7 @@ private:
     void reveal_all_cells();
     bool valid_coordinates(const int x, const int y) const;
     bool check_win() const;
+    void generate_cells();
 public:
     Minesweeper(const int width, const int height, const int difficulty = 7);
     ~Minesweeper();
