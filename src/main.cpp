@@ -1,16 +1,52 @@
 #include "../include/Minesweeper.hpp"
 #include <SDL2/SDL.h>
 #include <cstdio>
+#include <getopt.h>
 #include <string>
 
-int main(){
+int main(int argc, char *argv[]){
 
     if(SDL_Init(SDL_INIT_VIDEO) != 0){
         fprintf(stderr, "SDL Initialization error: %s\n", SDL_GetError());
         return 1;
     }
 
-    Minesweeper minesweeper(8, 8);
+    // default options for minesweeper initialization
+    int width = 16;
+    int height = 16;
+
+    static struct option long_options[] = {
+        {"width", required_argument, NULL, 'w'},
+        {"height", required_argument, NULL, 'h'},
+        {"help", no_argument, NULL, 'H'},
+        {NULL, 0, NULL, 0}
+    };
+
+    int c;
+
+    // TODO:
+    // parse format of arguments (and also check for negative values, too small/large values, etc.)
+    while ((c = getopt_long(argc, argv, "w:h:H", long_options, NULL)) != -1) {
+        switch (c)
+            {
+            case 'w':
+                width = std::stoi(optarg);
+                break;
+            case 'h':
+                height = std::stoi(optarg);
+                break;
+            case 'H':
+                // help();
+                // lowercase 'h' is already used for height
+                exit(1);
+            case '?':
+                fprintf(stderr, "%s: Use -H or --help to display options.\n", argv[0]);
+                exit(1);
+            default: {}
+            }
+    }
+
+    Minesweeper minesweeper(width, height);
 
     SDL_Window *window = SDL_CreateWindow("Minesweeper",
                                           SDL_WINDOWPOS_CENTERED,
