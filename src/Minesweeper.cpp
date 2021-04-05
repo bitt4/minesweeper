@@ -155,6 +155,7 @@ void Minesweeper::mouse_down_event(const SDL_Event& event){
 
     Cell &current_cell = cells[y * m_height + x];
 
+    // TODO: check this rare case when there are no mines at all
     switch(event.button.button){
     case SDL_BUTTON_LEFT:
         if(!current_cell.flagged()){
