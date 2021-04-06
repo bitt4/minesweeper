@@ -2,14 +2,8 @@
 
 Clone of Windows Minesweeper
 
-I should probably make it object oriented one day.
-
-Edit `include/consts.hpp` to change board width and height.
-
-Yeah the code is very ugly, but I will make a better version one day.
-
 ## Dependencies
- - SDL2
+ - [SDL2](https://www.libsdl.org/download-2.0.php)
 
 ## Installation
 ```
@@ -18,3 +12,10 @@ cd minesweeper
 make
 ./minesweeper
 ```
+
+## Options
+| Option              | Effect                            | Default value |
+|---------------------|-----------------------------------|---------------|
+|`-w`, `--width=NUM`  | Set width of the grid in cells    |16             |
+|`-h`, `--height=NUM` | Set height of the grid in cells   |16             |
+|`-H`, `--help`       | Display help                      |               |
