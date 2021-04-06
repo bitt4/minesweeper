@@ -4,12 +4,9 @@
 #include <getopt.h>
 #include <string>
 
-int main(int argc, char *argv[]){
+void help();
 
-    if(SDL_Init(SDL_INIT_VIDEO) != 0){
-        fprintf(stderr, "SDL Initialization error: %s\n", SDL_GetError());
-        return 1;
-    }
+int main(int argc, char *argv[]){
 
     // default options for minesweeper initialization
     int width = 16;
@@ -36,7 +33,7 @@ int main(int argc, char *argv[]){
                 height = std::stoi(optarg);
                 break;
             case 'H':
-                // help();
+                help();
                 // lowercase 'h' is already used for height
                 exit(1);
             case '?':
@@ -47,6 +44,11 @@ int main(int argc, char *argv[]){
     }
 
     Minesweeper minesweeper(width, height);
+
+    if(SDL_Init(SDL_INIT_VIDEO) != 0){
+        fprintf(stderr, "SDL Initialization error: %s\n", SDL_GetError());
+        return 1;
+    }
 
     SDL_Window *window = SDL_CreateWindow("Minesweeper",
                                           SDL_WINDOWPOS_CENTERED,
@@ -110,4 +112,14 @@ int main(int argc, char *argv[]){
     SDL_Quit();
 
     return 0;
+}
+
+void help(){
+    fprintf(stderr, "Usage: minesweeper [OPTIONS]...\n"
+            "\n"
+            "Options:\n"
+            "  -w, --width=[NUM]    width of board in cells\n"
+            "  -h, --height=[NUM]   height of board in cells\n"
+            "  -H, --help           print this help message\n"
+            "\n");
 }
