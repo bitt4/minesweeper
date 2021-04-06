@@ -11,6 +11,7 @@ private:
     const int m_width;
     const int m_height;
     const int m_difficulty;
+    int m_number_of_mines { 0 };
     bool m_game_over { false };
     std::mt19937 m_generator;
     SDL_Renderer* m_renderer;
