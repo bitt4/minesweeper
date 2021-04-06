@@ -25,7 +25,7 @@ public:
         Nearby1,
         Nearby0,
     };
-    static const size_t width { 16 };
+    static constexpr size_t width { 16 };
     explicit Cell(const int x, const int y, Type type);
     explicit Cell() = default;
     Type type() const;
