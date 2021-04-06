@@ -76,7 +76,6 @@ void Minesweeper::initialize_texture(){
 }
 
 void Minesweeper::reveal_nearby_empty(const int x, const int y){
-    // TODO: make this look simpler
     for(int ry = y - 1; ry <= y + 1; ++ry){
         for(int rx = x - 1; rx <= x + 1; ++rx){
             Cell &current_cell = cells[ry * m_height + rx];
@@ -121,12 +120,15 @@ bool Minesweeper::check_win() const {
 }
 
 void Minesweeper::generate_cells(){
+    m_number_of_mines = 0;
     for(int y = 0; y < m_height; ++y){
         for(int x = 0; x < m_width; ++x){
             int pos = y * m_height + x;
             Cell::Type cell_type = Cell::Type::Nearby0;
-            if(m_generator() % m_difficulty == 0)
+            if(m_generator() % m_difficulty == 0){
                 cell_type = Cell::Type::Mine;
+                m_number_of_mines++;
+            }
             cells[pos] = Cell(x, y, cell_type);
         }
     }
@@ -155,9 +157,12 @@ void Minesweeper::mouse_down_event(const SDL_Event& event){
 
     Cell &current_cell = cells[y * m_height + x];
 
-    // TODO: check this rare case when there are no mines at all
     switch(event.button.button){
     case SDL_BUTTON_LEFT:
+        // Very rare case (well, depends on difficulty and size of grid), when the RNG gods blessed you and gave you 0 mines
+        if(m_number_of_mines == 0){
+            m_game_over = true;
+        }
         if(!current_cell.flagged()){
             if(current_cell.type() == Cell::Type::Mine){
                 reveal_all_cells();
