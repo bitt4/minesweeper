@@ -19,7 +19,6 @@ private:
     std::vector<Cell> cells;
 
     int get_nearby_mines(const int x, const int y) const;
-    void set_flag(const int x, const int y, bool flagged);
     void draw_cell(const int x, const int y);
     void reveal_nearby_empty(const int x, const int y);
     void reveal_all_cells();
