@@ -5,6 +5,7 @@
 #include <string>
 
 void help();
+int parse_option(const char*, int l, int r);
 
 int main(int argc, char *argv[]){
 
@@ -27,10 +28,10 @@ int main(int argc, char *argv[]){
         switch (c)
             {
             case 'w':
-                width = std::stoi(optarg);
+                width = parse_option(optarg, 1, 1000);    // Upper limit of 1000 cells is not really necessary
                 break;
             case 'h':
-                height = std::stoi(optarg);
+                height = parse_option(optarg, 1, 1000);
                 break;
             case 'H':
                 help();
@@ -122,4 +123,13 @@ void help(){
             "  -h, --height=[NUM]   height of board in cells\n"
             "  -H, --help           print this help message\n"
             "\n");
+}
+
+int parse_option(const char* option, int l, int r){
+    long int value = strtol(option, nullptr, 0);
+    if(!(l <= value && value <= r)){
+        fprintf(stderr, "Invalid argument '%s'\n", option);
+        exit(1);
+    }
+    return value;
 }
