@@ -22,8 +22,6 @@ int main(int argc, char *argv[]){
 
     int c;
 
-    // TODO:
-    // parse format of arguments (and also check for negative values, too small/large values, etc.)
     while ((c = getopt_long(argc, argv, "w:h:H", long_options, NULL)) != -1) {
         switch (c)
             {
