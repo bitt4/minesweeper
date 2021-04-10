@@ -13,6 +13,7 @@ private:
     const int m_difficulty;
     int m_number_of_mines { 0 };
     bool m_game_over { false };
+    std::string m_executable_path;
     std::mt19937 m_generator;
     SDL_Renderer* m_renderer;
 
@@ -30,6 +31,7 @@ public:
     ~Minesweeper();
     int get_window_width() const;
     int get_window_height() const;
+    std::string get_executable_path() const;
     void assign_renderer(SDL_Renderer* renderer);
     void render_hidden_field();
     void initialize_texture();

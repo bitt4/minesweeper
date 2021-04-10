@@ -69,9 +69,7 @@ int main(int argc, char *argv[]){
         fprintf(stderr, "Renderer creation failed: %s\n", SDL_GetError());
     }
 
-    char* base_path = SDL_GetBasePath();
-    SDL_Surface *icon = SDL_LoadBMP((base_path + std::string("bitmaps/icon.bmp")).c_str());
-    SDL_free(base_path);
+    SDL_Surface *icon = SDL_LoadBMP((minesweeper.get_executable_path() + std::string("bitmaps/icon.bmp")).c_str());
 
     if(icon == nullptr){
         fprintf(stderr, "Could not load icon: %s\n", SDL_GetError());
