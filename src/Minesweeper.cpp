@@ -11,6 +11,10 @@ Minesweeper::Minesweeper(const int width, const int height, const int difficulty
       m_difficulty { difficulty },
       m_generator { std::mt19937(time(nullptr)) }
 {
+    char* base_path = SDL_GetBasePath();
+    m_executable_path = base_path;
+    SDL_free(base_path);
+
     cells.resize(m_width * m_height);
     generate_cells();
 }
@@ -29,6 +33,10 @@ int Minesweeper::get_window_width() const {
 
 int Minesweeper::get_window_height() const {
     return m_height * Cell::width;
+}
+
+std::string Minesweeper::get_executable_path() const {
+    return m_executable_path;
 }
 
 bool Minesweeper::valid_coordinates(const int x, const int y) const {
@@ -55,8 +63,7 @@ Cell::Type nearby_mines_to_cell_type(const int nearby) {
 }
 
 void Minesweeper::initialize_texture(){
-    char* base_path = SDL_GetBasePath();
-    SDL_Surface *surface = SDL_LoadBMP((base_path + std::string("bitmaps/cells.bmp")).c_str());
+    SDL_Surface *surface = SDL_LoadBMP((m_executable_path + std::string("bitmaps/cells.bmp")).c_str());
 
     if(surface == nullptr){
         fprintf(stderr, "Failed to load bitmap: %s\n", SDL_GetError());
@@ -72,7 +79,6 @@ void Minesweeper::initialize_texture(){
 
     Cell::set_texture(texture);
     SDL_FreeSurface(surface);
-    SDL_free(base_path);
 }
 
 void Minesweeper::reveal_nearby_empty(const int x, const int y){
