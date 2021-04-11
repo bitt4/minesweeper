@@ -96,6 +96,9 @@ int main(int argc, char *argv[]){
             case SDL_MOUSEBUTTONDOWN:
                 minesweeper.mouse_down_event(e);
                 break;
+            case SDL_MOUSEBUTTONUP:
+                minesweeper.mouse_up_event(e);
+                break;
             default:
                 break;
             }
