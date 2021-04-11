@@ -11,6 +11,7 @@ private:
     const int m_width;
     const int m_height;
     const int m_difficulty;
+    int m_current_cell_pos { 0 };
     int m_number_of_mines { 0 };
     bool m_game_over { false };
     std::string m_executable_path;
@@ -36,6 +37,7 @@ public:
     void render_hidden_field();
     void initialize_texture();
     void mouse_down_event(const SDL_Event& event);
+    void mouse_up_event(const SDL_Event& event);
 };
 
 #endif //MINESWEEPER_HPP

@@ -150,10 +150,8 @@ void Minesweeper::generate_cells(){
     }
 }
 
-void Minesweeper::mouse_down_event(const SDL_Event& event){
+void Minesweeper::mouse_up_event(const SDL_Event& event){
     if(m_game_over){
-        generate_cells();
-        render_hidden_field();
         m_game_over = false;
         return;
     }
@@ -161,7 +159,17 @@ void Minesweeper::mouse_down_event(const SDL_Event& event){
     int x = event.button.x / Cell::width;
     int y = event.button.y / Cell::width;
 
-    Cell &current_cell = cells[y * m_width + x];
+    int pos = y * m_width + x;
+
+    Cell &clicked_cell = cells[m_current_cell_pos];
+
+    if(m_current_cell_pos != pos){
+        if(!clicked_cell.revealed())
+            clicked_cell.render(m_renderer, Cell::Type::Hidden);
+        return;
+    }
+
+    Cell &current_cell = cells[pos];
 
     switch(event.button.button){
     case SDL_BUTTON_LEFT:
@@ -197,6 +205,29 @@ void Minesweeper::mouse_down_event(const SDL_Event& event){
                 m_game_over = true;
             }
         }
+        break;
+    default: {}
+    }
+}
+
+void Minesweeper::mouse_down_event(const SDL_Event& event){
+    if(m_game_over){
+        generate_cells();
+        render_hidden_field();
+        return;
+    }
+
+    int x = event.button.x / Cell::width;
+    int y = event.button.y / Cell::width;
+    m_current_cell_pos = y * m_width + x;
+
+    Cell &current_cell = cells[m_current_cell_pos];
+
+    switch(event.button.button){
+    case SDL_BUTTON_LEFT:
+    case SDL_BUTTON_RIGHT:
+        if(!current_cell.revealed())
+            current_cell.render(m_renderer, Cell::Type::Nearby0);
         break;
     default: {}
     }
