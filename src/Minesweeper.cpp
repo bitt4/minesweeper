@@ -35,10 +35,6 @@ int Minesweeper::get_window_height() const {
     return m_height * Cell::width;
 }
 
-std::string Minesweeper::get_executable_path() const {
-    return m_executable_path;
-}
-
 bool Minesweeper::valid_coordinates(const int x, const int y) const {
     return y >= 0 && x >= 0 && y < m_height && x < m_width;
 }
