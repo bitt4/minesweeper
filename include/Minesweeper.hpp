@@ -2,7 +2,7 @@
 #define MINESWEEPER_HPP
 
 #include <SDL2/SDL.h>
-#include "../include/Cell.hpp"
+#include "Cell.hpp"
 #include <random>
 #include <vector>
 
