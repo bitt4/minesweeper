@@ -10,7 +10,7 @@ public:
     enum class Type : uint8_t {
         Hidden,
         Flag,
-        Question,
+        Question,               // Unused
         TriggeredMine,
         FalseMine,
         Mine,
@@ -25,19 +25,20 @@ public:
         Nearby1,
         Nearby0,
     };
+
     static constexpr size_t width { 16 };
     explicit Cell(const int x, const int y, Type type);
     explicit Cell() = default;
-    Type type() const;
+    Type type() const { return m_type; }
+    bool flagged() const { return m_flagged; }
+    bool revealed() const { return m_revealed; }
     void toggle_flag();
-    bool flagged() const;
-    bool revealed() const;
     void reveal();
     void set_type(Type type);
     void render(SDL_Renderer* renderer);
     void render(SDL_Renderer* renderer, Type type);
     static void set_texture(SDL_Texture* texture);
-    static SDL_Texture* get_texture();
+    static SDL_Texture* get_texture() { return m_texture; }
 private:
     int m_x;
     int m_y;
