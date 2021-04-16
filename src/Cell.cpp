@@ -49,3 +49,9 @@ void Cell::render(SDL_Renderer* renderer, Cell::Type type){
 void Cell::render(SDL_Renderer* renderer){
     render(renderer, m_type);
 }
+
+Cell::Type Cell::nearby_mines_to_cell_type(const int nearby) {
+    return static_cast<Cell::Type>(15 - nearby);
+    /* This works because of the way cell textures are organized in
+     * bitmaps/cells.bmp */
+}
