@@ -12,17 +12,19 @@ int main(int argc, char *argv[]){
     // default options for minesweeper initialization
     int width = 16;
     int height = 16;
+    int difficulty = 7;
 
     static struct option long_options[] = {
         {"width", required_argument, NULL, 'w'},
         {"height", required_argument, NULL, 'h'},
+        {"diff", required_argument, NULL, 'd'},
         {"help", no_argument, NULL, 'H'},
         {NULL, 0, NULL, 0}
     };
 
     int c;
 
-    while ((c = getopt_long(argc, argv, "w:h:H", long_options, NULL)) != -1) {
+    while ((c = getopt_long(argc, argv, "w:h:d:H", long_options, NULL)) != -1) {
         switch (c)
             {
             case 'w':
@@ -30,6 +32,9 @@ int main(int argc, char *argv[]){
                 break;
             case 'h':
                 height = parse_option(optarg, 1, 1000);
+                break;
+            case 'd':
+                difficulty = parse_option(optarg, 1, 10);
                 break;
             case 'H':
                 help();
@@ -42,7 +47,7 @@ int main(int argc, char *argv[]){
             }
     }
 
-    Minesweeper minesweeper(width, height);
+    Minesweeper minesweeper(width, height, difficulty);
 
     if(SDL_Init(SDL_INIT_VIDEO) != 0){
         fprintf(stderr, "SDL Initialization error: %s\n", SDL_GetError());
@@ -120,6 +125,7 @@ void help(){
             "Options:\n"
             "  -w, --width=[NUM]    width of board in cells\n"
             "  -h, --height=[NUM]   height of board in cells\n"
+            "  -d, --diff=[NUM]     set difficulty, chance 1 in NUM that a mine will be generated\n"
             "  -H, --help           print this help message\n"
             "\n");
 }
