@@ -37,7 +37,7 @@ public:
     void set_type(Type type);
     void render(SDL_Renderer* renderer);
     void render(SDL_Renderer* renderer, Type type);
-    static void set_texture(SDL_Texture* texture);
+    static void set_texture(SDL_Texture*& texture);
     static SDL_Texture* get_texture() { return m_texture; }
     static Cell::Type nearby_mines_to_cell_type(const int nearby);
 private:

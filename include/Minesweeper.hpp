@@ -33,7 +33,7 @@ public:
     int get_window_width() const;
     int get_window_height() const;
     std::string get_executable_path() const { return m_executable_path; }
-    void assign_renderer(SDL_Renderer* renderer);
+    void assign_renderer(SDL_Renderer*& renderer);
     void render_hidden_field();
     void initialize_texture();
     void mouse_down_event(const SDL_Event& event);
