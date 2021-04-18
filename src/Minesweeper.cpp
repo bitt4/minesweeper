@@ -75,8 +75,10 @@ void Minesweeper::reveal_nearby_empty(const int x, const int y){
             Cell &current_cell = cells[ry * m_width + rx];
             if(!(ry == y && rx == x) && valid_coordinates(rx, ry)){
                 if(current_cell.type() != Cell::Type::Mine && !current_cell.revealed()){
-                    current_cell.reveal();
-                    current_cell.render(m_renderer);
+                    if(!current_cell.flagged()){
+                        current_cell.reveal();
+                        current_cell.render(m_renderer);
+                    }
                     if(current_cell.type() == Cell::Type::Nearby0)
                         reveal_nearby_empty(rx, ry);
                 }
