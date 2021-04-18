@@ -214,7 +214,7 @@ void Minesweeper::mouse_down_event(const SDL_Event& event){
     switch(event.button.button){
     case SDL_BUTTON_LEFT:
     case SDL_BUTTON_RIGHT:
-        if(!current_cell.revealed())
+        if(!current_cell.revealed() && !current_cell.flagged())
             current_cell.render(m_renderer, Cell::Type::Nearby0);
         break;
     default: {}
