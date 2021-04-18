@@ -23,7 +23,7 @@ void Cell::reveal(){
     m_revealed = true;
 }
 
-void Cell::set_texture(SDL_Texture* texture){
+void Cell::set_texture(SDL_Texture*& texture){
     m_texture = texture;
 }
 

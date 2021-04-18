@@ -21,7 +21,7 @@ Minesweeper::~Minesweeper(){
     SDL_DestroyTexture(Cell::get_texture());
 }
 
-void Minesweeper::assign_renderer(SDL_Renderer *renderer){
+void Minesweeper::assign_renderer(SDL_Renderer*& renderer){
     m_renderer = renderer;
 }
 
