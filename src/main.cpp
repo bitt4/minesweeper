@@ -92,23 +92,20 @@ int main(int argc, char *argv[]){
     bool quit = false;
     SDL_Event e;
 
-    while(!quit){
-        while(SDL_PollEvent(&e)){
-            switch(e.type){
-            case SDL_QUIT:
-                quit = true;
-                break;
-            case SDL_MOUSEBUTTONDOWN:
-                minesweeper.mouse_down_event(e);
-                break;
-            case SDL_MOUSEBUTTONUP:
-                minesweeper.mouse_up_event(e);
-                break;
-            default:
-                break;
-            }
+    while(!quit && SDL_WaitEvent(&e)){
+        switch(e.type){
+        case SDL_QUIT:
+            quit = true;
+            break;
+        case SDL_MOUSEBUTTONDOWN:
+            minesweeper.mouse_down_event(e);
+            break;
+        case SDL_MOUSEBUTTONUP:
+            minesweeper.mouse_up_event(e);
+            break;
+        default:
+            break;
         }
-        // minesweeper.render(renderer);
         SDL_RenderPresent(renderer);
     }
 
