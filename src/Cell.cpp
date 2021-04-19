@@ -1,5 +1,6 @@
 #include "../include/Cell.hpp"
 #include <SDL2/SDL.h>
+#include <cstdio>
 
 SDL_Texture* Cell::m_texture { nullptr };
 
