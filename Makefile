@@ -5,12 +5,19 @@ INCDIR = include
 SRC = $(wildcard $(SRCDIR)/*.cpp)
 OBJ = $(patsubst $(SRCDIR)/%.cpp,$(OBJDIR)/%.o, $(SRC))
 INC = $(wildcard $(INCDIR)/*.hpp)
+
+ifeq ($(OS),Windows_NT)
+	LIBS =-lmingw32 -lSDL2main
+endif
+
+LIBS +=-lSDL2
+
 CXXFLAGS = -O3 -std=c++11 -Werror -Wall -Wextra -pedantic
 
 all: $(EXECUTABLE)
 
 $(EXECUTABLE): $(OBJ)
-	$(CXX) -o $(EXECUTABLE) $(OBJ) -lSDL2 $(CXXFLAGS)
+	$(CXX) -o $(EXECUTABLE) $(OBJ) $(LIBS) $(CXXFLAGS)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.cpp $(INC) | obj
 	$(CXX) $(CXXFLAGS) -o $@ -c $<
@@ -22,4 +29,8 @@ run:
 	@./$(EXECUTABLE)
 
 clean:
+ifeq ($(OS),Windows_NT)
+	del /f /q $(subst /,\,$(OBJ)) $(EXECUTABLE).exe
+else
 	rm -f $(OBJ) $(EXECUTABLE)
+endif
