@@ -23,7 +23,11 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.cpp $(INC) | obj
 	$(CXX) $(CXXFLAGS) -o $@ -c $<
 
 obj:
+ifeq ($(OS),Windows_NT)
+	@mkdir $@
+else
 	@mkdir -p $@
+endif
 
 run:
 	@./$(EXECUTABLE)
