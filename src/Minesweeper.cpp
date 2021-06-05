@@ -72,15 +72,17 @@ void Minesweeper::initialize_texture(){
 void Minesweeper::reveal_nearby_empty(const int x, const int y){
     for(int ry = y - 1; ry <= y + 1; ++ry){
         for(int rx = x - 1; rx <= x + 1; ++rx){
-            Cell &current_cell = cells[ry * m_width + rx];
-            if(!(ry == y && rx == x) && valid_coordinates(rx, ry)){
-                if(current_cell.type() != Cell::Type::Mine && !current_cell.revealed()){
-                    if(!current_cell.flagged()){
-                        current_cell.reveal();
-                        current_cell.render(m_renderer);
+            if(valid_coordinates(rx, ry)){
+                Cell &current_cell = cells[ry * m_width + rx];
+                if(!(ry == y && rx == x)){
+                    if(current_cell.type() != Cell::Type::Mine && !current_cell.revealed()){
+                        if(!current_cell.flagged()){
+                            current_cell.reveal();
+                            current_cell.render(m_renderer);
+                        }
+                        if(current_cell.type() == Cell::Type::Nearby0)
+                            reveal_nearby_empty(rx, ry);
                     }
-                    if(current_cell.type() == Cell::Type::Nearby0)
-                        reveal_nearby_empty(rx, ry);
                 }
             }
         }
@@ -108,7 +110,7 @@ void Minesweeper::reveal_all_cells(){
 }
 
 bool Minesweeper::check_win() const {
-    for(Cell cell : cells){
+    for(const Cell &cell : cells){
         if((cell.type() == Cell::Type::Mine && !cell.flagged()) || (cell.type() != Cell::Type::Mine && cell.flagged()))
             return false;
     }
