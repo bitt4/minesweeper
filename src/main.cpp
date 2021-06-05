@@ -13,18 +13,20 @@ int main(int argc, char *argv[]){
     int width = 16;
     int height = 16;
     int difficulty = 7;
+    bool hwaccel_enabled = true;
 
     static struct option long_options[] = {
         {"width", required_argument, NULL, 'w'},
         {"height", required_argument, NULL, 'h'},
         {"diff", required_argument, NULL, 'd'},
         {"help", no_argument, NULL, 'H'},
+        {"no-acceleration", no_argument, NULL, 'a'},
         {NULL, 0, NULL, 0}
     };
 
     int c;
 
-    while ((c = getopt_long(argc, argv, "w:h:d:H", long_options, NULL)) != -1) {
+    while ((c = getopt_long(argc, argv, "w:h:d:Ha", long_options, NULL)) != -1) {
         switch (c)
             {
             case 'w':
@@ -40,6 +42,9 @@ int main(int argc, char *argv[]){
                 help();
                 // lowercase 'h' is already used for height
                 exit(1);
+            case 'a':
+                hwaccel_enabled = false;
+                break;
             case '?':
                 fprintf(stderr, "%s: Use -H or --help to display options.\n", argv[0]);
                 exit(1);
@@ -68,7 +73,8 @@ int main(int argc, char *argv[]){
 
     SDL_Renderer *renderer = SDL_CreateRenderer(window,
                                                 -1,
-                                                SDL_RENDERER_ACCELERATED);
+                                                hwaccel_enabled ? SDL_RENDERER_ACCELERATED :
+                                                                  SDL_RENDERER_SOFTWARE);
 
     if(renderer == nullptr){
         fprintf(stderr, "Renderer creation failed: %s\n", SDL_GetError());
@@ -120,10 +126,11 @@ void help(){
     fprintf(stderr, "Usage: minesweeper [OPTIONS]...\n"
             "\n"
             "Options:\n"
-            "  -w, --width=[NUM]    width of board in cells\n"
-            "  -h, --height=[NUM]   height of board in cells\n"
-            "  -d, --diff=[NUM]     set difficulty, chance 1 in NUM that a mine will be generated\n"
-            "  -H, --help           print this help message\n"
+            "  -w, --width=[NUM]       width of board in cells\n"
+            "  -h, --height=[NUM]      height of board in cells\n"
+            "  -d, --diff=[NUM]        set difficulty, chance 1 in NUM that a mine will be generated\n"
+            "  -H, --help              print this help message\n"
+            "  -a, --no-acceleration   disable hardware acceleration (enabled by default)\n"
             "\n");
 }
 

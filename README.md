@@ -14,9 +14,10 @@ make
 ```
 
 ## Options
-| Option              | Effect                                                        | Default value |
-|---------------------|---------------------------------------------------------------|---------------|
-|`-w`, `--width=NUM`  | Set width of the grid in cells                                | 16            |
-|`-h`, `--height=NUM` | Set height of the grid in cells                               | 16            |
-|`-d`, `--diff=NUM`   | Set difficulty, chance 1 in NUM that a mine will be generated | 7             |
-|`-H`, `--help`       | Display help                                                  |               |
+| Option                   | Effect                                                        | Default value |
+|--------------------------|---------------------------------------------------------------|---------------|
+|`-w`, `--width=NUM`       | Set width of the grid in cells                                | 16            |
+|`-h`, `--height=NUM`      | Set height of the grid in cells                               | 16            |
+|`-d`, `--diff=NUM`        | Set difficulty, chance 1 in NUM that a mine will be generated | 7             |
+|`-H`, `--help`            | Display help                                                  |               |
+|`-a`, `--no-acceleration` | disable hardware acceleration (enabled by default)            |               |
