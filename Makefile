@@ -6,13 +6,14 @@ SRC = $(wildcard $(SRCDIR)/*.cpp)
 OBJ = $(patsubst $(SRCDIR)/%.cpp,$(OBJDIR)/%.o, $(SRC))
 INC = $(wildcard $(INCDIR)/*.hpp)
 
+CXXFLAGS = -O3 -std=c++11 -Werror -Wall -Wextra -pedantic
+
 ifeq ($(OS),Windows_NT)
 	LIBS =-lmingw32 -lSDL2main
+	CXXFLAGS +=-mwindows
 endif
 
 LIBS +=-lSDL2
-
-CXXFLAGS = -O3 -std=c++11 -Werror -Wall -Wextra -pedantic
 
 all: $(EXECUTABLE)
 
