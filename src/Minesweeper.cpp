@@ -51,7 +51,7 @@ int Minesweeper::get_nearby_mines(const int x, const int y) const {
 }
 
 void Minesweeper::initialize_texture(){
-    SDL_Surface *surface = SDL_LoadBMP((m_executable_path + std::string("bitmaps/cells.bmp")).c_str());
+    SDL_Surface *surface = SDL_LoadBMP((m_executable_path + "bitmaps/cells.bmp").c_str());
 
     if(surface == nullptr){
         fprintf(stderr, "Failed to load bitmap: %s\n", SDL_GetError());
@@ -79,6 +79,7 @@ void Minesweeper::reveal_nearby_empty(const int x, const int y){
                         if(!current_cell.flagged()){
                             current_cell.reveal();
                             current_cell.render(m_renderer);
+                            m_number_of_revealed_cells++;
                         }
                         if(current_cell.type() == Cell::Type::Nearby0)
                             reveal_nearby_empty(rx, ry);
@@ -110,15 +111,23 @@ void Minesweeper::reveal_all_cells(){
 }
 
 bool Minesweeper::check_win() const {
-    for(const Cell &cell : cells){
-        if((cell.type() == Cell::Type::Mine && !cell.flagged()) || (cell.type() != Cell::Type::Mine && cell.flagged()))
-            return false;
+    int number_of_cells = m_width * m_height;
+    if(m_number_of_revealed_cells == number_of_cells - m_number_of_mines){
+        return true;
     }
-    return true;
+
+    if(m_cells_flagged_correctly == m_number_of_mines){
+        return true;
+    }
+
+    return false;
 }
 
 void Minesweeper::generate_cells(){
     m_number_of_mines = 0;
+    m_number_of_revealed_cells = 0;
+    m_cells_flagged_correctly = 0;
+
     for(int y = 0; y < m_height; ++y){
         for(int x = 0; x < m_width; ++x){
             int pos = y * m_width + x;
@@ -172,19 +181,22 @@ void Minesweeper::mouse_up_event(const SDL_Event& event){
         if(!current_cell.flagged()){
             if(current_cell.type() == Cell::Type::Mine){
                 reveal_all_cells();
+                // TODO: Reveal only mines, not all cells
                 current_cell.render(m_renderer, Cell::Type::TriggeredMine);
                 m_game_over = true;
-                return;
+                break;
             }
             if(current_cell.type() == Cell::Type::Nearby0 && !current_cell.revealed()){
                 current_cell.reveal();
                 current_cell.render(m_renderer);
+                m_number_of_revealed_cells++;
                 reveal_nearby_empty(x, y);
-                return;
+                break;
             }
             if(!current_cell.revealed()){
                 current_cell.reveal();
                 current_cell.render(m_renderer);
+                m_number_of_revealed_cells++;
             }
         }
         break;
@@ -192,13 +204,29 @@ void Minesweeper::mouse_up_event(const SDL_Event& event){
         if(!current_cell.revealed()){
             current_cell.toggle_flag();
             current_cell.render(m_renderer, current_cell.flagged() ? Cell::Type::Flag : Cell::Type::Hidden);
-            if(check_win()){
-                reveal_all_cells();
-                m_game_over = true;
+
+            if(current_cell.type() == Cell::Type::Mine){
+                if(current_cell.flagged())
+                    m_cells_flagged_correctly++;
+                else
+                    m_cells_flagged_correctly--;
+            }
+            else {
+                if(current_cell.flagged()){
+                    m_cells_flagged_correctly--;
+                } else {
+                    m_cells_flagged_correctly++;
+                }
             }
         }
         break;
     default: {}
+    }
+
+    if(check_win()){
+        reveal_all_cells();
+        // TODO: Render unchecked mines with flags instead of mine
+        m_game_over = true;
     }
 }
 
