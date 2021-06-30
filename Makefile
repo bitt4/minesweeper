@@ -10,7 +10,7 @@ CXXFLAGS = -O3 -std=c++11 -Werror -Wall -Wextra -pedantic
 
 ifeq ($(OS),Windows_NT)
 	LIBS =-lmingw32 -lSDL2main
-	CXXFLAGS +=-mwindows
+	WINMODE=-mwindows
 endif
 
 LIBS +=-lSDL2
@@ -18,10 +18,13 @@ LIBS +=-lSDL2
 all: $(EXECUTABLE)
 
 $(EXECUTABLE): $(OBJ)
-	$(CXX) -o $(EXECUTABLE) $(OBJ) $(LIBS) $(CXXFLAGS)
+	$(CXX) -o $(EXECUTABLE) $(OBJ) $(LIBS) $(CXXFLAGS) $(WINMODE)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.cpp $(INC) | obj
 	$(CXX) $(CXXFLAGS) -o $@ -c $<
+
+debug:
+	$(CXX) -o $(EXECUTABLE) $(OBJ) $(LIBS) $(CXXFLAGS)
 
 obj:
 ifeq ($(OS),Windows_NT)
