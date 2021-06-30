@@ -13,6 +13,8 @@ private:
     const int m_difficulty;
     int m_current_cell_pos { 0 };
     int m_number_of_mines { 0 };
+    int m_number_of_revealed_cells { 0 };
+    int m_cells_flagged_correctly { 0 };
     bool m_game_over { false };
     std::string m_executable_path;
     std::mt19937 m_generator;
