@@ -23,8 +23,8 @@ private:
     std::vector<Cell> cells;
 
     int get_nearby_mines(const int x, const int y) const;
-    void render_cell(Cell&);
-    void render_cell(Cell&, Cell::Type);
+    void render_cell(const Cell&) const;
+    void render_cell(const Cell&, Cell::Type) const;
     void reveal_cell(Cell&);
     void reveal_nearby_empty(const int x, const int y);
     void reveal_all_cells();
@@ -38,8 +38,8 @@ public:
     int get_window_height() const;
     std::string get_executable_path() const { return m_executable_path; }
     void assign_renderer(SDL_Renderer*& renderer);
-    void render_hidden_field();
-    void initialize_texture();
+    void render_hidden_field() const;
+    void initialize_texture() const;
     void mouse_down_event(const SDL_Event& event);
     void mouse_up_event(const SDL_Event& event);
 };

@@ -50,7 +50,7 @@ int Minesweeper::get_nearby_mines(const int x, const int y) const {
     return nearby;
 }
 
-void Minesweeper::initialize_texture(){
+void Minesweeper::initialize_texture() const {
     SDL_Surface *surface = SDL_LoadBMP((m_executable_path + "bitmaps/cells.bmp").c_str());
 
     if(surface == nullptr){
@@ -69,7 +69,7 @@ void Minesweeper::initialize_texture(){
     SDL_FreeSurface(surface);
 }
 
-void Minesweeper::render_cell(Cell& cell, Cell::Type type){
+void Minesweeper::render_cell(const Cell& cell, Cell::Type type) const {
     SDL_Rect texture_read_rect, texture_write_rect;
 
     texture_read_rect.x = 0;
@@ -88,7 +88,7 @@ void Minesweeper::render_cell(Cell& cell, Cell::Type type){
     }
 }
 
-void Minesweeper::render_cell(Cell& cell){
+void Minesweeper::render_cell(const Cell& cell) const {
     render_cell(cell, cell.type());
 }
 
@@ -117,20 +117,19 @@ void Minesweeper::reveal_nearby_empty(const int x, const int y){
     }
 }
 
-void Minesweeper::render_hidden_field(){
-    for(Cell &cell : cells){
+void Minesweeper::render_hidden_field() const {
+    for(const Cell &cell : cells){
         render_cell(cell, Cell::Type::Hidden);
     }
 }
 
 void Minesweeper::reveal_all_cells(){
     for(Cell &cell : cells){
-        if(cell.type() == Cell::Type::Mine && cell.flagged()){
-            render_cell(cell, Cell::Type::Flag);
-            continue;
-        }
-        if(cell.type() != Cell::Type::Mine && cell.flagged()){
-            render_cell(cell, Cell::Type::FalseMine);
+        if(cell.flagged()){
+            if(cell.type() == Cell::Type::Mine)
+                render_cell(cell, Cell::Type::Flag);
+            else
+                render_cell(cell, Cell::Type::FalseMine);
             continue;
         }
         render_cell(cell);

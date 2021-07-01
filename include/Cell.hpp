@@ -7,6 +7,7 @@
 
 class Cell {
 public:
+    /* This is how cell textures are arranged in bitmaps/cells.bmp */
     enum class Type : uint8_t {
         Hidden,
         Flag,
@@ -40,7 +41,7 @@ public:
     void set_type(Type type);
     static void set_texture(SDL_Texture*& texture);
     static SDL_Texture* get_texture() { return m_texture; }
-    static Cell::Type nearby_mines_to_cell_type(const int nearby);
+    static Type nearby_mines_to_cell_type(const int nearby);
 private:
     int m_x;
     int m_y;
