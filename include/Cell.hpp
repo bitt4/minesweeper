@@ -29,14 +29,15 @@ public:
     static constexpr size_t width { 16 };
     explicit Cell(const int x, const int y, Type type);
     explicit Cell() = default;
+
+    int x() const { return m_x; }
+    int y() const { return m_y; }
     Type type() const { return m_type; }
     bool flagged() const { return m_flagged; }
     bool revealed() const { return m_revealed; }
     void toggle_flag();
     void reveal();
     void set_type(Type type);
-    void render(SDL_Renderer* renderer);
-    void render(SDL_Renderer* renderer, Type type);
     static void set_texture(SDL_Texture*& texture);
     static SDL_Texture* get_texture() { return m_texture; }
     static Cell::Type nearby_mines_to_cell_type(const int nearby);

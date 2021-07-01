@@ -9,7 +9,6 @@ Cell::Cell(const int x, const int y, const Cell::Type type)
       m_y { y },
       m_type { type }
 {
-
 }
 
 void Cell::toggle_flag(){
@@ -28,31 +27,9 @@ void Cell::set_texture(SDL_Texture*& texture){
     m_texture = texture;
 }
 
-void Cell::render(SDL_Renderer* renderer, Cell::Type type){
-    SDL_Rect texture_read_rect, texture_write_rect;
-
-    texture_read_rect.x = 0;
-    texture_read_rect.y = Cell::width * static_cast<size_t>(type);
-    texture_read_rect.w = Cell::width;
-    texture_read_rect.h = Cell::width;
-
-    texture_write_rect.x = m_x * Cell::width;
-    texture_write_rect.y = m_y * Cell::width;
-    texture_write_rect.w = Cell::width;
-    texture_write_rect.h = Cell::width;
-
-    int render_copy_result = SDL_RenderCopy(renderer, Cell::m_texture, &texture_read_rect, &texture_write_rect);
-    if(render_copy_result < 0){
-        fprintf(stderr, "Failed to render texture: %s\n", SDL_GetError());
-    }
-}
-
-void Cell::render(SDL_Renderer* renderer){
-    render(renderer, m_type);
-}
-
 Cell::Type Cell::nearby_mines_to_cell_type(const int nearby) {
     return static_cast<Cell::Type>(15 - nearby);
     /* This works because of the way cell textures are organized in
-     * bitmaps/cells.bmp */
+     * bitmaps/cells.bmp
+     */
 }

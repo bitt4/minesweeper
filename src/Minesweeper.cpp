@@ -69,6 +69,34 @@ void Minesweeper::initialize_texture(){
     SDL_FreeSurface(surface);
 }
 
+void Minesweeper::render_cell(Cell& cell, Cell::Type type){
+    SDL_Rect texture_read_rect, texture_write_rect;
+
+    texture_read_rect.x = 0;
+    texture_read_rect.y = Cell::width * static_cast<size_t>(type);
+    texture_read_rect.w = Cell::width;
+    texture_read_rect.h = Cell::width;
+
+    texture_write_rect.x = cell.x() * Cell::width;
+    texture_write_rect.y = cell.y() * Cell::width;
+    texture_write_rect.w = Cell::width;
+    texture_write_rect.h = Cell::width;
+
+    int render_copy_result = SDL_RenderCopy(m_renderer, Cell::get_texture(), &texture_read_rect, &texture_write_rect);
+    if(render_copy_result < 0){
+        fprintf(stderr, "Failed to render texture: %s\n", SDL_GetError());
+    }
+}
+
+void Minesweeper::render_cell(Cell& cell){
+    render_cell(cell, cell.type());
+}
+
+void Minesweeper::reveal_cell(Cell& cell){
+    cell.reveal();
+    m_number_of_revealed_cells++;
+}
+
 void Minesweeper::reveal_nearby_empty(const int x, const int y){
     for(int ry = y - 1; ry <= y + 1; ++ry){
         for(int rx = x - 1; rx <= x + 1; ++rx){
@@ -77,9 +105,8 @@ void Minesweeper::reveal_nearby_empty(const int x, const int y){
                 if(!(ry == y && rx == x)){
                     if(current_cell.type() != Cell::Type::Mine && !current_cell.revealed()){
                         if(!current_cell.flagged()){
-                            current_cell.reveal();
-                            current_cell.render(m_renderer);
-                            m_number_of_revealed_cells++;
+                            reveal_cell(current_cell);
+                            render_cell(current_cell);
                         }
                         if(current_cell.type() == Cell::Type::Nearby0)
                             reveal_nearby_empty(rx, ry);
@@ -92,21 +119,21 @@ void Minesweeper::reveal_nearby_empty(const int x, const int y){
 
 void Minesweeper::render_hidden_field(){
     for(Cell &cell : cells){
-        cell.render(m_renderer, Cell::Type::Hidden);
+        render_cell(cell, Cell::Type::Hidden);
     }
 }
 
 void Minesweeper::reveal_all_cells(){
     for(Cell &cell : cells){
         if(cell.type() == Cell::Type::Mine && cell.flagged()){
-            cell.render(m_renderer, Cell::Type::Flag);
+            render_cell(cell, Cell::Type::Flag);
             continue;
         }
         if(cell.type() != Cell::Type::Mine && cell.flagged()){
-            cell.render(m_renderer, Cell::Type::FalseMine);
+            render_cell(cell, Cell::Type::FalseMine);
             continue;
         }
-        cell.render(m_renderer);
+        render_cell(cell);
     }
 }
 
@@ -166,7 +193,7 @@ void Minesweeper::mouse_up_event(const SDL_Event& event){
 
     if(m_current_cell_pos != pos){
         if(!clicked_cell.revealed())
-            clicked_cell.render(m_renderer, Cell::Type::Hidden);
+            render_cell(clicked_cell, Cell::Type::Hidden);
         return;
     }
 
@@ -182,28 +209,26 @@ void Minesweeper::mouse_up_event(const SDL_Event& event){
             if(current_cell.type() == Cell::Type::Mine){
                 reveal_all_cells();
                 // TODO: Reveal only mines, not all cells
-                current_cell.render(m_renderer, Cell::Type::TriggeredMine);
+                render_cell(current_cell, Cell::Type::TriggeredMine);
                 m_game_over = true;
                 break;
             }
             if(current_cell.type() == Cell::Type::Nearby0 && !current_cell.revealed()){
-                current_cell.reveal();
-                current_cell.render(m_renderer);
-                m_number_of_revealed_cells++;
+                reveal_cell(current_cell);
+                render_cell(current_cell);
                 reveal_nearby_empty(x, y);
                 break;
             }
             if(!current_cell.revealed()){
-                current_cell.reveal();
-                current_cell.render(m_renderer);
-                m_number_of_revealed_cells++;
+                reveal_cell(current_cell);
+                render_cell(current_cell);
             }
         }
         break;
     case SDL_BUTTON_RIGHT:
         if(!current_cell.revealed()){
             current_cell.toggle_flag();
-            current_cell.render(m_renderer, current_cell.flagged() ? Cell::Type::Flag : Cell::Type::Hidden);
+            render_cell(current_cell, current_cell.flagged() ? Cell::Type::Flag : Cell::Type::Hidden);
 
             if(current_cell.type() == Cell::Type::Mine){
                 if(current_cell.flagged())
@@ -212,11 +237,10 @@ void Minesweeper::mouse_up_event(const SDL_Event& event){
                     m_cells_flagged_correctly--;
             }
             else {
-                if(current_cell.flagged()){
+                if(current_cell.flagged())
                     m_cells_flagged_correctly--;
-                } else {
+                else
                     m_cells_flagged_correctly++;
-                }
             }
         }
         break;
@@ -247,7 +271,7 @@ void Minesweeper::mouse_down_event(const SDL_Event& event){
     case SDL_BUTTON_LEFT:
     case SDL_BUTTON_RIGHT:
         if(!current_cell.revealed() && !current_cell.flagged())
-            current_cell.render(m_renderer, Cell::Type::Nearby0);
+            render_cell(current_cell, Cell::Type::Nearby0);
         break;
     default: {}
     }
