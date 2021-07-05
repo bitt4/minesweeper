@@ -126,11 +126,11 @@ void help(){
     fprintf(stderr, "Usage: minesweeper [OPTIONS]...\n"
             "\n"
             "Options:\n"
-            "  -w, --width=[NUM]       width of board in cells\n"
-            "  -h, --height=[NUM]      height of board in cells\n"
-            "  -d, --diff=[NUM]        set difficulty, chance 1 in NUM that a mine will be generated\n"
-            "  -H, --help              print this help message\n"
-            "  -a, --no-acceleration   disable hardware acceleration (enabled by default)\n"
+            "  -w, --width=NUM        width of board in cells\n"
+            "  -h, --height=NUM       height of board in cells\n"
+            "  -d, --diff=NUM         set difficulty, chance 1 in NUM that a mine will be generated\n"
+            "  -H, --help             print this help message\n"
+            "  -a, --no-acceleration  disable hardware acceleration (enabled by default)\n"
             "\n");
 }
 
