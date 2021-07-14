@@ -32,7 +32,7 @@ private:
     bool check_win() const;
     void generate_cells();
 public:
-    Minesweeper(const int width, const int height, const int difficulty = 7);
+    explicit Minesweeper(const int width, const int height, const int difficulty);
     ~Minesweeper();
     int get_window_width() const;
     int get_window_height() const;
